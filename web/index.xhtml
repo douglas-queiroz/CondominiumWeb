@@ -1,14 +1,29 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Página de boas-vindas do Primefaces" />
-    </h:body>
-</html>
-
+<ui:composition template="/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo">	
+		<p:dialog rendered="#{param.negado}" resizable="false"
+			header="Acesso negado" closable="false" visible="true">
+			<img style="padding-left: 20px;"
+				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+			<div style="text-align: center; font-size: 20px;">Acesso
+				negado!</div>
+		</p:dialog>
+		<p:dialog rendered="#{param.notfound}" width="295" resizable="false"
+			header="Acesso negado" visible="true">
+			<img style="padding-left: 20px;"
+				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+			<div style="text-align: center; font-size: 20px;">Pagina não
+				existe!</div>
+		</p:dialog>
+		<p:dialog rendered="#{param.erro}" width="295" resizable="false"
+			header="Acesso negado" visible="true">
+			<img style="padding-left: 20px;"
+				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+			<div style="text-align: center; font-size: 20px;">Erro!</div>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

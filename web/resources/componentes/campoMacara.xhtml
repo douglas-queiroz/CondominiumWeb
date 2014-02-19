@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:comp="http://java.sun.com/jsf/composite"
+	xmlns:util="http://java.sun.com/jsf/composite/componentes">
+
+<comp:interface>
+	<comp:attribute name="id" required="true" />
+	<comp:attribute name="label" required="true" />
+	<comp:attribute name="title" />
+	<comp:attribute name="value" />
+	<comp:attribute name="readonly" type="java.lang.Boolean" />
+	<comp:attribute name="maxlength" />
+	<comp:attribute name="size" />
+	<comp:attribute name="disabled" />
+	<comp:attribute name="mask" required="true" />
+	<comp:attribute name="styleLabel" default="" />
+	<comp:attribute name="style" default="margin-bottom: 5px;" />
+</comp:interface>
+
+<comp:implementation>
+	<div style="#{cc.attrs.style}">
+		<h:outputText value="#{cc.attrs.label}: " />
+		<util:infor rendered="#{cc.attrs.title != ''}"
+			texto="#{cc.attrs.title}" />
+	</div>
+	<div>
+		<p:inputMask id="#{cc.attrs.id}" mask="#{cc.attrs.mask}"
+			value="#{cc.attrs.value}" maxlength="#{cc.attrs.maxlength}"
+			size="#{cc.attrs.size}" style="#{cc.attrs.style}" disabled="#{cc.attrs.disabled}"/>
+	</div>
+</comp:implementation>
+</html>

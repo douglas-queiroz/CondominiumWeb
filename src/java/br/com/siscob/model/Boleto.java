@@ -51,14 +51,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Boleto.findByValorCobrado", query = "SELECT b FROM Boleto b WHERE b.valorCobrado = :valorCobrado"),
     @NamedQuery(name = "Boleto.findByLocalPagamento", query = "SELECT b FROM Boleto b WHERE b.localPagamento = :localPagamento"),
     @NamedQuery(name = "Boleto.findByInstrucaoPagamento", query = "SELECT b FROM Boleto b WHERE b.instrucaoPagamento = :instrucaoPagamento")})
-public class Boleto implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-    @Basic(optional = false)
+public class Boleto extends AbstractEntity implements Serializable {
+    
     @Column(name = "codigo_operacao", nullable = false)
     private int codigoOperacao;
     @Basic(optional = false)
@@ -117,12 +111,8 @@ public class Boleto implements Serializable {
     public Boleto() {
     }
 
-    public Boleto(Integer id) {
-        this.id = id;
-    }
-
     public Boleto(Integer id, int codigoOperacao, String numeroDocumento, String nossoNumero, String digitoNossoNumero, BigDecimal valor, Date dataDocumento, Date dataVencimento, int tipoTitulo, int aceite, BigDecimal desconto, BigDecimal deducao, BigDecimal mora, BigDecimal acrescimo, BigDecimal valorCobrado) {
-        this.id = id;
+        super.id = id;
         this.codigoOperacao = codigoOperacao;
         this.numeroDocumento = numeroDocumento;
         this.nossoNumero = nossoNumero;

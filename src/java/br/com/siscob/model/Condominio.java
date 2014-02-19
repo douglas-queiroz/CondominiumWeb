@@ -35,13 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Condominio.findById", query = "SELECT c FROM Condominio c WHERE c.id = :id"),
     @NamedQuery(name = "Condominio.findByNome", query = "SELECT c FROM Condominio c WHERE c.nome = :nome"),
     @NamedQuery(name = "Condominio.findByCnpj", query = "SELECT c FROM Condominio c WHERE c.cnpj = :cnpj")})
-public class Condominio implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+public class Condominio extends AbstractEntity implements Serializable {
+    
     @Column(name = "nome", length = 250)
     private String nome;
     @Column(name = "cnpj", length = 45)

@@ -39,13 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Conta.findByAgencia", query = "SELECT c FROM Conta c WHERE c.agencia = :agencia"),
     @NamedQuery(name = "Conta.findByDigitoAg", query = "SELECT c FROM Conta c WHERE c.digitoAg = :digitoAg"),
     @NamedQuery(name = "Conta.findByCarteira", query = "SELECT c FROM Conta c WHERE c.carteira = :carteira")})
-public class Conta implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+public class Conta extends AbstractEntity implements Serializable {
+    
     @Basic(optional = false)
     @Column(name = "banco", nullable = false)
     private int banco;

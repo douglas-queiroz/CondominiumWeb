@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:head>
+        <title>Tronic Siscob</title>
+        <link rel="shortcut icon"
+              href="#{facesContext.externalContext.requestContextPath}/resources/imagens/icon.ico" />
+
+        <h:outputStylesheet library="css" name="estilo.css" />
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <h:outputScript library="js" name="bootstrap.js" />
+        <h:outputScript library="js" name="locale-primefaces.js" />
+        <h:outputScript library="js" name="jquery.alphanumeric.js" />
+        <h:outputScript library="js" name="MaskMoney.js" />
+        <h:outputScript library="js" name="sistema.js" />
+
+    </h:head>
+    <h:body>
+        <h:form id="formMsg">
+            <p:growl id="msg" showDetail="true" />
+
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse"
+                               data-target=".navbar-responsive-collapse"> <span
+                                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                                    class="icon-bar"></span>
+                            </a> <a class="brand" style="color: #ffffff"
+                                    href="#{facesContext.externalContext.requestContextPath}/">
+                                <b>Siscob</b>
+                            </a>
+                            <div class="nav-collapse collapse navbar-responsive-collapse">
+                                <ul class="nav">
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                            data-toggle="dropdown">Boletos <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/mantertitulo/">
+                                                    Título
+                                                </h:outputLink></li>
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/manterfatura/">
+                                                    Fatura
+                                                </h:outputLink></li>
+                                        </ul></li>
+
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                            data-toggle="dropdown">Manutenção <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/mantercliente/">
+                                                    Clientes
+                                                </h:outputLink></li>
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/mantercondominio/">
+                                                    Condomínios
+                                                </h:outputLink></li>
+
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/manterconta/">
+                                                    Conta
+                                                </h:outputLink></li>
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/manterservico/">
+                                                    Serviços
+                                                </h:outputLink></li>
+                                        </ul></li>
+
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                            data-toggle="dropdown">Usuários <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/mantergrupo/">
+                                                    Grupos
+                                                </h:outputLink></li>
+                                            <li><h:outputLink
+                                                    value="#{facesContext.externalContext.requestContextPath}/modulos/manterusuario/">
+                                                    Usuários
+                                                </h:outputLink></li>
+                                        </ul></li>
+                                </ul>
+
+                                <ul class="nav pull-right">
+                                    <li class="divider-vertical"></li>
+                                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                            data-toggle="dropdown">Olá <b>#{sessionBean.usuario.nome}</b>
+                                            <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><p:commandLink oncomplete="cadastroSenhaDlg.show()"
+                                                               value="Alterar Senha" /></li>
+                                            <li class="divider"></li>
+                                            <li><a
+                                                    href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout"><i
+                                                        class="icon-off"></i> Logout</a></li>
+                                        </ul></li>
+                                </ul>
+                            </div>
+                            <!-- /.nav-collapse -->
+                        </div>
+                    </div>
+                    <!-- /navbar-inner -->
+                </div>
+            </div>
+            <ui:include src="/dialog_senha.xhtml" />
+        </h:form>
+        <div class="container" style="height: 600px;">
+            <ui:insert name="conteudo">espaço para conteudo</ui:insert>
+        </div>
+        <!-- /container -->
+        <div id="footer">
+            <hr />
+            <div class="container" style="text-align: center">
+                <p class="muted credit">
+                    Tronic RM Versão 1.0 | Desenvolvido por <a
+                        href="http://tronictecnologia.com.br">Tronic Tecnologia</a>.
+                </p>
+            </div>
+        </div>
+    </h:body>
+</html>
+

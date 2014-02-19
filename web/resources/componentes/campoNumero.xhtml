@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:comp="http://java.sun.com/jsf/composite"
+	xmlns:util="http://java.sun.com/jsf/composite/componentes">
+
+<comp:interface>
+	<comp:attribute name="id" />
+	<comp:attribute name="value" />
+	<comp:attribute name="readOnly" />
+	<comp:attribute name="maxlength" default="10" />
+	<comp:attribute name="size" />
+	<comp:attribute name="style" default="margin-bottom: 5px;" />
+	<comp:attribute name="styleLabel" default="margin-bottom: 5px;" />
+</comp:interface>
+
+<comp:implementation>
+	<div style="#{cc.attrs.styleLabel}">
+		<h:outputText value="#{cc.attrs.label}: "
+			rendered="#{cc.attrs.rendered}" />
+		<util:infor rendered="#{cc.attrs.title != ''}"
+			texto="#{cc.attrs.title}" />
+	</div>
+	<div>
+		<p:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}"
+			styleClass="numero" style="#{cc.attrs.style}" size="#{cc.attrs.size}"
+			maxlength="#{cc.attrs.maxlength}" readonly="#{cc.attrs.readOnly}"
+			alt="true">
+			<f:convertNumber locale="pt_BR" />
+		</p:inputText>
+		<script>
+			$(function() {
+				$('.numero').numeric({
+					allow : ","
+				});
+			});
+		</script>
+	</div>
+</comp:implementation>
+</html>

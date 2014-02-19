@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Tronic Siscob</title>
+        <link rel="stylesheet" type="text/css"
+              href="resources/css/login_estilo.css" />
+        <link rel="shortcut icon"
+              href="#{facesContext.externalContext.requestContextPath}/resources/imagens/icon.ico" />
+
+    </h:head>
+    <h:body>
+        <p:dialog id="login" header="Login - Tronic Sicob" visible="true" closable="false"
+                  draggable="false" resizable="false" width="800">
+            <div style="float: left;">
+                <h:graphicImage library="imagens" name="logo_cliente.png" width="400"/>
+            </div>
+            <div style="float: right; margin: 20px 60px 0px 0px;">
+                <h:graphicImage library="imagens" name="logo_login.png" width="200"/>
+                <center>
+                    <h:outputText value="Usuário ou senha incorretos!"
+                                  rendered="#{param.erro}" style="color: darkred" />
+                </center>
+                <form action="j_spring_security_check" method="post">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="j_username" value="Login:" />
+                        <h:inputText id="j_username" required="true" />
+                        <h:outputLabel for="j_password" value="Senha:" />
+                        <h:inputSecret id="j_password" required="true" />
+                        <h:outputLabel value="." style="color: #ffffff" />
+                        <h:commandButton value="Login" />
+                    </h:panelGrid>
+                </form>
+            </div>
+        </p:dialog>
+    </h:body>
+</html>

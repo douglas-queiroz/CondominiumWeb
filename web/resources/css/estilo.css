@@ -1,0 +1,139 @@
+/* 
+    Document   : estilo
+    Created on : 27/12/2012, 18:06:05
+    Author     : Douglas
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.sombra {
+	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+body {
+	margin: 0;
+	background: #c8c8c8;
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+#topo {
+	width: 100%;
+	height: 400px;
+	padding-top: 14px;
+	position: absolute;
+}
+
+#topo h1 {
+	width: 350px;
+	height: 100px;
+	text-indent: -9000px;
+	overflow: auto;
+	float: left;
+	margin: 15px 95px 27px 20px;
+}
+
+#topo h1 a.logo {
+	float: left;
+	width: 350px;
+	height: 100px;
+	display: block;
+	background: url(../imagens/logo.png) no-repeat;
+}
+
+#topo_int {
+	width: 900px;
+	height: 140px;
+	border-radius: 5px;
+	background: #FFF;
+	margin: 0 auto;
+}
+
+/* ------------Inicio Corpo---------------*/
+#corpo {
+	width: 100%;
+	margin: 0 auto;
+	padding: 15px 0 0 0;
+}
+
+#content {
+	width: 880px;
+	margin: 0 auto;
+	border-radius: 5px;
+	background-color: #FFF;
+	padding: 10px;
+}
+
+/* ------------Fim Corpo---------------*/
+rodape {
+	width: 100%;
+	padding-top: 95px;
+}
+
+#rodape-int {
+	width: 890px;
+	margin: 0 auto;
+	margin-top: 10px;
+	border-radius: 5px;
+	background: #FFF;
+	text-align: center;
+	font-style: normal;
+	color: #3a94a4;
+	padding: 5px;
+}
+
+#bemVindo {
+	font-size: 10px;
+	float: right;
+	padding-top: 80px;
+	padding-right: 10px;
+	color: #24abe6
+}
+
+#painelOperacao {
+	color: #149297;
+	font-size: 30px;
+	padding-left: 20px;
+	margin-bottom: 20px;
+}
+
+#bemVindo b {
+	font-size: 12px;
+}
+
+.ui-widget {
+	font-size: 11px !important;
+}
+
+.ui-growl {
+	top: 50px;
+}
+
+.image_1 {
+	background: url(/resources/imagens/btn_add.png) no-repeat top left;
+}
+
+.separar_componetes {
+	margin-bottom: 5px;
+}
+
+.greenColumn {
+	font-weight: bold;
+	background-color: #ccffcc;
+}
+
+.redColumn {
+	font-weight: bold;
+	background-color: #ff9999;
+}
+
+.ui-growl {
+	padding-top: 30px;
+}

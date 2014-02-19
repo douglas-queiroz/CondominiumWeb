@@ -30,13 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Grupo.findById", query = "SELECT g FROM Grupo g WHERE g.id = :id"),
     @NamedQuery(name = "Grupo.findByDescricao", query = "SELECT g FROM Grupo g WHERE g.descricao = :descricao"),
     @NamedQuery(name = "Grupo.findBySituacao", query = "SELECT g FROM Grupo g WHERE g.situacao = :situacao")})
-public class Grupo implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+public class Grupo extends AbstractEntity implements Serializable {
+    
     @Column(name = "descricao", length = 45)
     private String descricao;
     @Basic(optional = false)

@@ -1,0 +1,47 @@
+/* 
+    Document   : login-estilo
+    Created on : 11/01/2013, 20:25:59
+    Author     : Douglas
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body{
+    margin:0;
+    background: #c8c8c8;
+}
+
+/* ------------Inicio Corpo---------------*/
+
+#corpo{
+    width:100%;
+    margin:0 auto;
+    padding:15px 0 0 0;
+    position: absolute;
+    z-index: 2
+}
+
+#content{
+    width:950px;
+    height:300px;
+    margin:0 auto;
+    border-radius: 5px;
+    background-color: #FFF;
+    margin-top: 100px;
+    padding: 30px;
+}
+
+#logo{
+    margin: 20px;
+    width: 600px;
+    height: 280px;
+    background: aquamarine;
+}
+
+.ui-widget {  
+    font-size: 12px !important;  
+} 
+
+
+/* ------------Fim Corpo---------------*/
+
