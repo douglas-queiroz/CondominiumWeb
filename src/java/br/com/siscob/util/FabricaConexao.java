@@ -23,13 +23,14 @@ public class FabricaConexao {
     private static EntityManager em;
 
     public static EntityManager obterManager() {
-        if (emf == null) 
+        if (emf == null) {
             emf = Persistence.createEntityManagerFactory(UNIT_NAME);
-        
+        }
 
-        if (em == null) 
+        if (em == null) {
             em = emf.createEntityManager();
-        
+            em.getTransaction().begin();
+        }
 
         return em;
     }

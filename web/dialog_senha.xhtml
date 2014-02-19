@@ -1,39 +1,39 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:util="http://java.sun.com/jsf/composite/componentes">
-<h:body>
-	<p:dialog id="dialogSenha" header="Alterar Senha"
-		widgetVar="cadastroSenhaDlg" resizable="false" modal="true"
-		showEffect="slide">
-		<h:form id="formSenha">
-			<h:panelGrid id="pgInformacao">
-				<h:outputText value="Senha: " />
-				<p:password id="usuarios_senha" feedback="true"
-					value="#{usuarioLogadoBean.senha}" promptLabel="Digita a senha"
-					weakLabel="Fraca" goodLabel="Razoável" strongLabel="Forte"
-					size="20" maxlength="15" />
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:body>
+        <p:dialog id="dialogSenha" header="Alterar Senha"
+                  widgetVar="cadastroSenhaDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formSenha">
+                <h:panelGrid id="pgInformacao">
+                    <h:outputText value="Senha: " />
+                    <p:password id="usuarios_senha" feedback="true"
+                                value="#{sessionBean.senha}" promptLabel="Digita a senha"
+                                weakLabel="Fraca" goodLabel="Razoável" strongLabel="Forte"
+                                size="20" maxlength="15" />
 
-				<h:outputText value="Confirme: " />
-				<p:password id="usuarios_confirme_senha"
-					value="#{usuarioLogadoBean.senhaConfirma}" size="20" maxlength="15" />
-			</h:panelGrid>
+                    <h:outputText value="Confirme: " />
+                    <p:password id="usuarios_confirme_senha"
+                                value="#{sessionBean.senhaConfirma}" size="20" maxlength="15" />
+                </h:panelGrid>
 
-			<h:panelGrid columns="2" style="float: right; margin-top:10px;">
-				<p:commandButton
-					update=":formMsg:msg"
-					oncomplete="ehValidoSenha(xhr, status, args)"
-					actionListener="#{usuarioLogadoBean.alterarSenha}" value="Salvar"
-					icon="ui-icon-check" />
-				<p:commandButton value="Cancelar" oncomplete="cadastroSenhaDlg.hide();"
-					icon="ui-icon-close" />
-			</h:panelGrid>
-		</h:form>
-	</p:dialog>
-</h:body>
+                <h:panelGrid columns="2" style="float: right; margin-top:10px;">
+                    <p:commandButton
+                        update=":formMsg:msg"
+                        oncomplete="ehValidoSenha(xhr, status, args)"
+                        actionListener="#{sessionBean.alterarSenha}" value="Salvar"
+                        icon="ui-icon-check" />
+                    <p:commandButton value="Cancelar" oncomplete="cadastroSenhaDlg.hide();"
+                                     icon="ui-icon-close" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
 </html>
 
