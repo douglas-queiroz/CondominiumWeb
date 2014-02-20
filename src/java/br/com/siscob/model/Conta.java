@@ -13,15 +13,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.jrimum.bopepo.BancosSuportados;
 
 /**
  *
@@ -43,7 +41,7 @@ public class Conta extends AbstractEntity implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "banco", nullable = false)
-    private int banco;
+    private BancosSuportados banco;
     @Basic(optional = false)
     @Column(name = "conta", nullable = false)
     private int conta;
@@ -69,7 +67,7 @@ public class Conta extends AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public Conta(Integer id, int banco, int conta, String digitoCc, int agencia, String digitoAg, int carteira) {
+    public Conta(Integer id, BancosSuportados banco, int conta, String digitoCc, int agencia, String digitoAg, int carteira) {
         this.id = id;
         this.banco = banco;
         this.conta = conta;
@@ -87,11 +85,11 @@ public class Conta extends AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public int getBanco() {
+    public BancosSuportados getBanco() {
         return banco;
     }
 
-    public void setBanco(int banco) {
+    public void setBanco(BancosSuportados banco) {
         this.banco = banco;
     }
 

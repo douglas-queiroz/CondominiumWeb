@@ -91,7 +91,7 @@ public class SessionBean extends GenericBean<Usuario> implements Serializable {
 
     @Override
     Usuario iniciarObjeto() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override

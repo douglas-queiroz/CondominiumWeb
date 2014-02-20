@@ -6,8 +6,10 @@
 package br.com.siscob.mb;
 
 import br.com.siscob.neg.GenericNeg;
+import br.com.siscob.util.FacesUtil;
 import java.util.List;
 import org.eclipse.persistence.exceptions.ValidationException;
+import org.primefaces.context.RequestContext;
 
 /**
  * Classe de controle de view generica.
@@ -35,48 +37,41 @@ public abstract class GenericBean<T> {
      */
     public GenericBean(GenericNeg<T> neg) {
         this.neg = neg;
+        prepararAdicionar();
     }
 
     /**
      * Este método é executado no click do Novo "Objeto"
-     * 
-     * @return nome da página
      */
-    public String prepararAdicionar() {
+    public void prepararAdicionar() {
         this.objeto = this.iniciarObjeto();
-        
-        return "cadastro";
     }
     
     /**
      * Este método é executado no clicl do editar.
      * 
      * @param objeto - Objeto a ser editado
-     * @return nome da página
      */
-    public String prepararEditar(T objeto) {
+    public void prepararEditar(T objeto) {
         this.objeto = objeto;
-        
-        return "cadastro";
     }
 
     /**
      * Método generico para insert e update
      * 
-     * @return nome da pagina seguinte
      */
     @SuppressWarnings("unchecked")
-    public String salvar() {
-
+    public void salvar() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        
         try {
             this.obterNeg().salvar(this.getObjeto());
+            FacesUtil.exibirMensagemSucesso("Sucesso", "Registro salva com sucesso!");
+            context.addCallbackParam("valido", true);
+            
             listaObjetos = this.carregarLista();
-            
-            return "index";
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            
-            return null;
+            context.addCallbackParam("valido", false);
         }
     }
 

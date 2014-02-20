@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:body>
+        <p:dialog id="dialogCadastro" header="Cadastro de Banco"
+                  widgetVar="cadastroDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formCadastro">
+                <h:panelGrid id="pgInformacao">
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="Banco:" />
+                        <p:selectOneMenu id="banco_conta"
+                                         style="margin-bottom: 5px; margin-top: 5px; width: 400px;"
+                                         value="#{contaBean.objeto.banco}" required="true">
+                            <f:selectItems value="#{contaBean.banco}" var="estadoCivil"
+                                           itemValue="#{banco}" itemLabel="#{banco}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <h:panelGrid columns="5">
+                        <util:campoNumero label="Agência" id="agencia_conta" maxlength="4"
+                                          size="10" value="#{contaBean.objeto.agencia}" title=""
+                                          styleLabel="margin: 0px 0px 4px 0px; "
+                                          style="margin: 0px 5px 5px 0px;" />
+
+                        <p:inputText id="digito_ag_conta"
+                                     value="#{contaBean.objeto.digitoAg}" 
+                                     style="margin-top: 12px;" size="1" maxlength="1"/>
+
+                        <util:campoNumero label="Conta" id="conta_conta" maxlength="10"
+                                          size="10" value="#{contaBean.objeto.conta}" title=""
+                                          styleLabel="margin: 0px 0px 4px 20px; "
+                                          style="margin: 0px 5px 5px 20px;" />
+
+                        <p:inputText id="digito_cc_conta"
+                                     value="#{contaBean.objeto.digitoCc}" 
+                                     style="margin-top: 12px;" size="1" maxlength="1"/>
+
+                        <util:campoNumero label="Cart." id="carteira_conta" maxlength="3"
+                                          size="10" value="#{contaBean.objeto.carteira}" title=""
+                                          styleLabel="margin: 0px 0px 4px 20px; "
+                                          style="margin: 0px 5px 5px 20px;" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" style="float:right; margin-top: 10px;">
+                        <p:commandButton
+                            update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao"
+                            oncomplete="ehValido(xhr, status, args)"
+                            actionListener="#{contaBean.salvar()}" value="Salvar"
+                            icon="ui-icon-check" />
+                        <p:commandButton value="Cancelar" oncomplete="cadastroDlg.hide();"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

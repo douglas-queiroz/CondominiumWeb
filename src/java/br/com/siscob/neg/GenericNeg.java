@@ -26,7 +26,7 @@ public abstract class GenericNeg<T> {
         this.dao = dao;
     }
 
-    public void salvar(T objeto) throws ValidationException {
+    public void salvar(T objeto) throws Exception {
         EntityManager em = FabricaConexao.obterManager();
 
         try {
@@ -40,6 +40,7 @@ public abstract class GenericNeg<T> {
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
+            throw e;
         } finally {
         }
     }

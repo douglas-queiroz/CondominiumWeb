@@ -28,7 +28,7 @@ public abstract class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    protected Integer id;
+    protected Integer id = 0;
 
     public Integer getId() {
         return id;

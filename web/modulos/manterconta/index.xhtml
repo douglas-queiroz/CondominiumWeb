@@ -1,0 +1,63 @@
+<ui:composition template="/template/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <ui:define name="conteudo">	
+		<util:topoModulo imagem="banco"
+			modulo="Cadastro de Contas" />
+		
+        <h:form id="formTabela">
+            <p:dataTable id="dtTabela" var="conta" value="#{contaBean.listaObjetos}" 
+                         emptyMessage="Nenhuma Conta" rowKey="#{conta.id}" 
+                         selectionMode="single" selection="#{contaBean.objeto}" 
+                         paginatorPosition="bottom" paginator="#{contaBean.listaObjetos.size() > 10}" 
+                         rows="10" style="height:450px">
+                <p:ajax update=":formTabela:dtTabela" event="rowSelect"/>
+
+                <f:facet name="header" >
+
+                    <div style="float: left;">
+                        <p:commandButton actionListener="#{contaBean.prepararAdicionar()}" 
+                                         update=":formCadastro:pgInformacao"
+                                         oncomplete="cadastroDlg.show()" 
+                                         value="Novo" icon="ui-icon-plus"/>  
+                        <p:commandButton disabled="#{contaBean.objeto == null || contaBean.objeto.id == 0}"
+                                         icon="ui-icon-pencil" title="Editar" value="Editar"
+                                         update=":formCadastro:pgInformacao" 
+                                         oncomplete="cadastroDlg.show()"/>
+                        <p:commandButton disabled="#{contaBean.objeto == null ||contaBean.objeto.id == 0}"
+                                         icon="ui-icon-trash" title="Excluir" value="Excluir"
+                                         update=":formExcluir:confirmDlg" 
+                                         oncomplete="confirmacaoDlg.show()"/>
+                    </div>
+                </f:facet>
+
+                <p:column headerText="Banco" style="width:55%"> 
+                    <h:outputText value="#{conta.banco}" />  
+                </p:column>
+                
+                <p:column headerText="Agencia" style="width:20%"> 
+                    <h:outputText value="#{conta.agencia}-#{conta.digitoAg}" />  
+                </p:column>   
+                
+                <p:column headerText="Conta" style="width:20%"> 
+                    <h:outputText value="#{conta.conta}-#{conta.digitoCc}" />  
+                </p:column>  
+                
+                <p:column headerText="Carteira" style="width:5%"> 
+                    <h:outputText value="#{conta.carteira}" />  
+                </p:column>               
+            </p:dataTable>
+			
+			<p:blockUI block="dtTabela" trigger="dtTabela" widgetVar="bui">  
+        		<img src="#{facesContext.externalContext.requestContextPath}/resources/imagens/Loading.gif" />
+			</p:blockUI>
+        </h:form>
+
+        <ui:include src="dialog_criar.xhtml" />
+        <ui:include src="dialog_deletar.xhtml" />
+    </ui:define>
+</ui:composition>
