@@ -74,7 +74,8 @@ public abstract class GenericDAO<T> {
     public T find(long entityID) {
         EntityManager em = FabricaConexao.obterManager();
         T objeto = em.find(entityClass, entityID);
-
+        em.close();
+        
         return objeto;
     }
 
@@ -85,6 +86,7 @@ public abstract class GenericDAO<T> {
                 .add(Restrictions.eq("usuario", usuario))
                 .addOrder(Order.asc("descricao"))
                 .list();
+        em.close();
 
         return objetos;
     }
@@ -96,7 +98,8 @@ public abstract class GenericDAO<T> {
                 .add(Restrictions.eq("usuario", usuario))
                 .addOrder(Order.desc(ordenarPor))
                 .list();
-
+        em.close();
+        
         return objetos;
     }
 
@@ -109,6 +112,7 @@ public abstract class GenericDAO<T> {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         List<T> objetos = em.createQuery(cq).getResultList();
+        em.close();
 
         return objetos;
     }
@@ -137,6 +141,7 @@ public abstract class GenericDAO<T> {
             System.out.println("Error while running query: " + e.getMessage());
             e.printStackTrace();
         } finally {
+            em.close();
         }
 
         return result;
@@ -165,6 +170,7 @@ public abstract class GenericDAO<T> {
             System.out.println("Error while running query: " + e.getMessage());
             e.printStackTrace();
         } finally {
+            em.close();
         }
 
         return result;

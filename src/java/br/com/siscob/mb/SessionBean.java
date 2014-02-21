@@ -119,7 +119,7 @@ public class SessionBean extends GenericBean<Usuario> implements Serializable {
             senhaConfirma = "";
 
             FacesUtil.exibirMensagemSucesso("Sucesso", "Senha alterada com sucesso");
-        } catch (ValidacaoException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             context.addCallbackParam("valido", false);
         }

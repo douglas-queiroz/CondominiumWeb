@@ -8,14 +8,12 @@ package br.com.siscob.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -45,6 +43,9 @@ public class Condominio extends AbstractEntity implements Serializable {
     private List<Boleto> boletoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "condominioId", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Endereco endereco;
 
     public Condominio() {
     }
@@ -93,6 +94,18 @@ public class Condominio extends AbstractEntity implements Serializable {
 
     public void setUsuarioList(List<Usuario> usuarioList) {
         this.usuarioList = usuarioList;
+    }
+
+    public Endereco getEndereco() {
+        if(endereco == null){
+            endereco = new Endereco();
+        }
+        
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     @Override

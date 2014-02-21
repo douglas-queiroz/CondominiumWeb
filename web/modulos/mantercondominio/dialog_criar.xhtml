@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:body>
+        <p:dialog id="dialogCadastro" header="Cadastro de Condomínio"
+                  widgetVar="cadastroDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formCadastro">
+                <h:panelGrid id="pgInformacao">
+                    <h:panelGrid columns="2">
+                        <util:campoTexto id="nome_condominio" label="Nome" title=""
+                                         value="#{condominioBean.objeto.nome}" maxlength="250" size="67"
+                                         styleLabel="margin: 0px 0px 5px 0px; " />
+
+                        <h:panelGrid>
+                            <h:outputLabel value="CNPJ:" style="padding-left: 10px;" />
+                            <p:inputMask id="cnpj" mask="99.999.999/9999-99"
+                                         value="#{condominioBean.objeto.cnpj}" required="true"
+                                         style="margin-bottom: 5px; margin-left: 10px; margin-top: 5px;"
+                                         size="25" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3">
+                        <util:campoTexto id="logradouro_condominio" label="Logradouro"
+                                         title="" value="#{condominioBean.objeto.endereco.logradouro}"
+                                         maxlength="250" size="66" styleLabel="margin: 0px 0px 5px 0px; " />
+
+                        <util:campoNumero label="Nº" id="numero_condominio" maxlength="8"
+                                          size="10" value="#{condominioBean.objeto.endereco.numero}" title=""
+                                          styleLabel="margin: 5px 0px 4px 8px; "
+                                          style="margin: 0px 5px 5px 8px;" />
+
+                        <h:panelGrid>
+                            <h:outputLabel value="CEP:" style="padding-left: 10px;" />
+                            <p:inputMask id="cep" mask="99.999-999"
+                                         value="#{condominioBean.objeto.endereco.cep}" required="true"
+                                         style="margin-bottom: 5px; margin-left: 10px; margin-top: 5px;"
+                                         size="10" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3">
+                        <util:campoTexto id="bairro_condominio" label="Bairro" title=""
+                                         value="#{condominioBean.objeto.endereco.bairro}" maxlength="250"
+                                         size="40" styleLabel="margin: 5px 0px 5px 0px; " />
+                        <util:campoTexto id="cidade_condominio" label="Cidade" title=""
+                                         value="#{condominioBean.objeto.endereco.cidade}" maxlength="250"
+                                         size="30" styleLabel="margin: 0px 0px 5px 10px; "
+                                         style="margin: 0px 10px 0px 10px; " />
+                        <h:panelGrid>
+                            <h:outputText value="UF: " style="margin: 0px 0px 5px 0px; " />
+                            <p:selectOneMenu value="#{condominioBean.objeto.endereco.uf}">
+                                <f:selectItems value="#{condominioBean.ufs}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="float:right; margin-top: 10px;">
+                        <p:commandButton
+                            update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao"
+                            oncomplete="ehValido(xhr, status, args)"
+                            actionListener="#{condominioBean.salvar()}" value="Salvar"
+                            icon="ui-icon-check" />
+                        <p:commandButton value="Cancelar" oncomplete="cadastroDlg.hide();"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

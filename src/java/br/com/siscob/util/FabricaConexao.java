@@ -26,12 +26,11 @@ public class FabricaConexao {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory(UNIT_NAME);
         }
-
-        if (em == null) 
-            em = emf.createEntityManager();
         
-        if(!em.getTransaction().isActive())
-            em.getTransaction().begin();
+        if(em == null)
+         em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
         
 
         return em;

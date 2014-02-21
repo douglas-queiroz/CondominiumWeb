@@ -46,9 +46,6 @@ public class Usuario extends AbstractEntity implements Serializable {
     @JoinColumn(name = "condominio_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Condominio condominioId;
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Endereco enderecoId;
 
     public Usuario() {
     }
@@ -108,14 +105,6 @@ public class Usuario extends AbstractEntity implements Serializable {
 
     public void setCondominioId(Condominio condominioId) {
         this.condominioId = condominioId;
-    }
-
-    public Endereco getEnderecoId() {
-        return enderecoId;
-    }
-
-    public void setEnderecoId(Endereco enderecoId) {
-        this.enderecoId = enderecoId;
     }
 
     @Override

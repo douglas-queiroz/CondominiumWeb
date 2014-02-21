@@ -13,15 +13,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
 
 /**
  *
@@ -46,7 +44,7 @@ public class Endereco extends AbstractEntity implements Serializable {
     private String cidade;
     @Basic(optional = false)
     @Column(name = "uf", nullable = false, length = 2)
-    private String uf;
+    private UnidadeFederativa uf;
     @Basic(optional = false)
     @Column(name = "cep", nullable = false, length = 10)
     private String cep;
@@ -59,8 +57,8 @@ public class Endereco extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero", nullable = false, length = 10)
     private String numero;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enderecoId", fetch = FetchType.LAZY)
-    private List<Usuario> usuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco", fetch = FetchType.LAZY)
+    private List<Condominio> condominioList;
 
     public Endereco() {
     }
@@ -69,7 +67,7 @@ public class Endereco extends AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public Endereco(Integer id, String cidade, String uf, String cep, String bairro, String logradouro, String numero) {
+    public Endereco(Integer id, String cidade, UnidadeFederativa uf, String cep, String bairro, String logradouro, String numero) {
         this.id = id;
         this.cidade = cidade;
         this.uf = uf;
@@ -95,11 +93,11 @@ public class Endereco extends AbstractEntity implements Serializable {
         this.cidade = cidade;
     }
 
-    public String getUf() {
+    public UnidadeFederativa getUf() {
         return uf;
     }
 
-    public void setUf(String uf) {
+    public void setUf(UnidadeFederativa uf) {
         this.uf = uf;
     }
 
@@ -136,20 +134,21 @@ public class Endereco extends AbstractEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public List<Condominio> getCondominioList() {
+        return condominioList;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setCondominioList(List<Condominio> condominioList) {
+        this.condominioList = condominioList;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object object) {
