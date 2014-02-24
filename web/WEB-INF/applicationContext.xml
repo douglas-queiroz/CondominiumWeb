@@ -11,8 +11,7 @@
         <intercept-url pattern="/index.jsf" access="hasRole('ROLE_ADM')"/>
         <intercept-url pattern="/modulos/manterconta/*" access="hasRole('ROLE_ADM')"/>
         <intercept-url pattern="/modulos/mantercondominio/*" access="hasRole('ROLE_ADM')"/>
-        <intercept-url pattern="/modulos/forma_pagamento/*" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/modulos/movimentacao/*" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/modulos/manterusuario/*" access="hasRole('ROLE_ADM')"/>
         <form-login login-page="/login.jsf" authentication-failure-url="/login.jsf?erro=true"/>
         <access-denied-handler error-page="/?negado=true"/>
     </http>

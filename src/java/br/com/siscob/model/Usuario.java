@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u WHERE u.nome = :nome"),
     @NamedQuery(name = "Usuario.findByCpf", query = "SELECT u FROM Usuario u WHERE u.cpf = :cpf"),
     @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
+    @NamedQuery(name = "Usuario.findByNomeCpf", query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf"),
+    @NamedQuery(name = "Usuario.findByNomeOrCpf", query = "SELECT u FROM Usuario u WHERE u.nome like :nome or u.cpf like :cpf"),
+    @NamedQuery(name = "Usuario.findByNomeCpfCondominio", query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf and u.condominio =:condominio"),
     @NamedQuery(name = "Usuario.findByPermissao", query = "SELECT u FROM Usuario u WHERE u.permissao = :permissao")})
 public class Usuario extends AbstractEntity implements Serializable {
     
@@ -45,7 +48,7 @@ public class Usuario extends AbstractEntity implements Serializable {
     private String permissao;
     @JoinColumn(name = "condominio_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Condominio condominioId;
+    private Condominio condominio;
 
     public Usuario() {
     }
@@ -99,12 +102,12 @@ public class Usuario extends AbstractEntity implements Serializable {
         this.permissao = permissao;
     }
 
-    public Condominio getCondominioId() {
-        return condominioId;
+    public Condominio getCondominio() {
+        return condominio;
     }
 
-    public void setCondominioId(Condominio condominioId) {
-        this.condominioId = condominioId;
+    public void setCondominio(Condominio condominioId) {
+        this.condominio = condominioId;
     }
 
     @Override

@@ -16,9 +16,11 @@
             <property name= "javax.persistence.jdbc.password" value= "sicoadmin"/>
             <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://localhost:3306/siscob_db?zeroDateTimeBehavior=convertToNull" />
             
+            <property name="hibernate.show_sql" value="true"/>
+            
             <property name="hibernate.c3p0.min_size" value="0"/>  
-            <property name="hibernate.c3p0.max_size" value="10"/>  
-            <property name="hibernate.c3p0.timeout" value="1000"/>  
+            <property name="hibernate.c3p0.max_size" value="2"/>  
+            <property name="hibernate.c3p0.timeout" value="30"/>  
             <property name="hibernate.c3p0.max_statements" value="50"/>  
             <property name="hibernate.c3p0.idle_test_period" value="3000"/>
         </properties>

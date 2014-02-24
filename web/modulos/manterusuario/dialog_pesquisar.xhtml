@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <p:dialog id="pesquisaDlg" header="Filtro" widgetVar="dlgPesquisa" 
+                  resizable="false" modal="true" showEffect="slide">
+            <h:form prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Login: " for="pesquisa_login"/>
+                    <p:inputText id="pesquisa_login" value="#{usuarioBean.cpf}" 
+                                 style="margin-bottom: 5px; margin-left: 5px;"/>
+
+                    <h:outputLabel value="Nome: " for="pesquisa_nome"/>
+                    <p:inputText id="pesquisa_nome" value="#{usuarioBean.nomeUsuario}" 
+                                 style="margin-bottom: 5px; margin-left: 5px;"/>
+                    
+                    <h:outputLabel value="Codomínio: " for="pesquisa_codigominio"/>
+                    <p:selectOneMenu id="pesquisa_codigominio" value="#{usuarioBean.condominio}" 
+                                     converter="CondominioConverter" style="margin-bottom: 5px; margin-left: 5px;">
+                        <f:selectItem itemLabel="Selecione um Condomínio" itemValue="null"/>
+                        <f:selectItems value="#{usuarioBean.condominios}" var="_condominio"
+                                       itemLabel="#{_condominio.nome}" 
+                                       itemValue="#{_condominio}"/>
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <div style="float: right; margin-top: 10px;">
+                    <p:commandButton value="Pesquisar" 
+                                     update=":formTabela:dtTabela"
+                                     oncomplete="dlgPesquisa.hide();"
+                                     actionListener="#{usuarioBean.filtrarDetalhado()}"/>
+                </div>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

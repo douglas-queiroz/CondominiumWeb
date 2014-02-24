@@ -1,0 +1,63 @@
+<ui:composition template="/template/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <ui:define name="conteudo">	
+
+       	<util:topoModulo imagem="usuario" modulo="Cadastro de Usuário" />
+
+        <h:form id="formTabela">
+            <p:dataTable id="dtTabela" var="usuario" value="#{usuarioBean.listaObjetos}" 
+                         emptyMessage="Nenhum Usuário" rowKey="#{usuario.id}" 
+                         selectionMode="single" selection="#{usuarioBean.objeto}" 
+                         paginatorPosition="bottom" paginator="#{usuarioBean.listaObjetos.size() > 10}" 
+                         rows="10" style="height:450px">
+                <p:ajax update=":formTabela:dtTabela" event="rowSelect"/>
+
+                <f:facet name="header" > 
+                    <util:pesquisaGrid value="#{usuarioBean.filtroSimples}"
+                                       actionListener="#{usuarioBean.filtrarSimplificado()}" />
+
+                    <div style="text-align:left">
+                        <p:commandButton actionListener="#{usuarioBean.prepararAdicionar()}" 
+                                         update=":formCadastro:pgInformacao"
+                                         oncomplete="cadastroDlg.show()" 
+                                         value="Novo" icon="ui-icon-plus"/>  
+                        <p:commandButton disabled="#{usuarioBean.objeto == null || usuarioBean.objeto.id == 0
+                                                     || usuarioBean.objeto.id == 1}"
+                                         icon="ui-icon-pencil" title="Editar" value="Editar"
+                                         update=":formCadastro:pgInformacao"
+                                         oncomplete="cadastroDlg.show()"/>
+                        <p:commandButton disabled="#{usuarioBean.objeto == null ||usuarioBean.objeto.id == 0
+                                                     || usuarioBean.objeto.id == 1}"
+                                         icon="ui-icon-trash" title="Excluir" value="Excluir"
+                                         update=":formExcluir:confirmDlg" 
+                                         oncomplete="confirmacaoDlg.show()"/>
+                    </div>
+                </f:facet>
+                <p:column headerText="Nome" style="width:30%">  
+                    <h:outputText value="#{usuario.nome}" />
+                </p:column>
+
+                <p:column headerText="CPF" style="width:10%"> 
+                    <h:outputText value="#{usuario.cpf}" />  
+                </p:column>
+
+                <p:column headerText="Condomínio" style="width:10%">  
+                    <h:outputText value="#{usuario.condominio.nome}" />  
+                </p:column>
+            </p:dataTable>
+
+            <p:blockUI block="dtTabela" trigger="dtTabela" widgetVar="bui">  
+                <img src="#{facesContext.externalContext.requestContextPath}/resources/imagens/Loading.gif" />
+            </p:blockUI>
+        </h:form> 
+
+        <ui:include src="dialog_criar.xhtml" />
+        <ui:include src="dialog_deletar.xhtml" />
+        <ui:include src="dialog_pesquisar.xhtml" />
+    </ui:define>
+</ui:composition>

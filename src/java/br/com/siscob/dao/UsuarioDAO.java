@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.siscob.dao;
 
+import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,8 +17,8 @@ import java.util.Map;
  *
  * @author Douglas Queiroz
  */
-public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable{    
-    
+public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
+
     /**
      * UID serial version
      */
@@ -30,8 +31,31 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable{
         super(Usuario.class);
     }
 
+    public List<Usuario> consultar(String nome, String cpf, Condominio condominio) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("nome", "%" + nome + "%");
+        param.put("cpf", "%" + cpf + "%");
+
+        if (condominio == null) {
+            return super.findResultList("Usuario.findByNomeCpf", param);
+        } else {
+            param.put("condominio", condominio);
+
+            return super.findResultList("Usuario.findByNomeCpfCondominio", param);
+        }
+    }
+
+    public List<Usuario> consultar(String nome, String cpf) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("nome", "%" + nome + "%");
+        param.put("cpf", "%" + cpf + "%");
+        
+        return super.findResultList("Usuario.findByNomeOrCpf", param);
+    }
+
     /**
      * Método para obter um unico usuário pelo login
+     *
      * @param login - Login
      * @return Usuario
      */
@@ -40,5 +64,5 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable{
         param.put("cpf", login);
         return super.findOneResult("Usuario.findByCpf", param);
     }
-    
+
 }

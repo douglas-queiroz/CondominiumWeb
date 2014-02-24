@@ -8,9 +8,9 @@ package br.com.siscob.neg;
 import br.com.siscob.dao.GenericDAO;
 import br.com.siscob.model.AbstractEntity;
 import br.com.siscob.model.Usuario;
-import br.com.siscob.util.FabricaConexao;
+import java.util.HashMap;
 import java.util.List;
-import javax.persistence.EntityManager;
+import java.util.Map;
 import org.eclipse.persistence.exceptions.ValidationException;
 
 /**
@@ -27,37 +27,18 @@ public abstract class GenericNeg<T> {
     }
 
     public void salvar(T objeto) throws Exception {
-        EntityManager em = FabricaConexao.obterManager();
-
-        try {
-            if (((AbstractEntity) objeto).getId() == 0) {
-                this.obterDAO().save(objeto, em);
-            } else {
-                this.obterDAO().update(objeto, em);
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-            throw e;
-        } finally {
+        if (((AbstractEntity) objeto).getId() == 0) {
+            this.obterDAO().save(objeto);
+        } else {
+            this.obterDAO().update(objeto);
         }
     }
 
     public void excluir(T objeto) throws ValidationException {
-        EntityManager em = FabricaConexao.obterManager();
-
-        try {
-            this.obterDAO().delete(objeto, em);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-        } finally {
-        }
+        this.obterDAO().delete(objeto);
     }
 
-    public T obter(long id) {
+    public T obter(int id) {
         return this.obterDAO().find(id);
     }
 

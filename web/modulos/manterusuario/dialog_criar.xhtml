@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:body>
+        <p:dialog id="dialogCadastro" header="Cadastro de Usuário"
+                  widgetVar="cadastroDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formCadastro">
+                <h:panelGrid id="pgInformacao" style="margin-bottom:10px">
+                    <h:panelGrid columns="2">
+                        <h:panelGrid>
+                            <h:outputLabel value="Login: " />
+                            <p:inputText value="#{usuarioBean.objeto.cpf}" size="30"
+                                         maxlength="30" />
+                        </h:panelGrid>
+
+                        <h:panelGrid style="margin-left: 5px;">
+                            <h:outputText value="Senha: " />
+                            <p:password id="usuarios_senha" feedback="true"
+                                        value="#{usuarioBean.objeto.senha}" promptLabel="Digita a senha"
+                                        weakLabel="Fraca" goodLabel="Razoável" strongLabel="Forte"
+                                        size="20" maxlength="15" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid>
+                        <util:campoTexto id="usuario_nome" label="Nome"
+                                         value="#{usuarioBean.objeto.nome}" title=""
+                                         styleLabel="margin-bottom: 5px;" maxlength="150" size="55" />
+                    </h:panelGrid>
+                    
+                    <h:outputLabel value="Codomínio: " for="codigominio"/>
+                    <p:selectOneMenu id="codigominio" value="#{usuarioBean.objeto.condominio}" 
+                                     converter="CondominioConverter">
+                        <f:selectItem itemLabel="Selecione um Condomínio" itemValue="null"/>
+                        <f:selectItems value="#{usuarioBean.condominios}" var="_condominio"
+                                       itemLabel="#{_condominio.nome}" 
+                                       itemValue="#{_condominio}"/>
+                    </p:selectOneMenu>
+                    <h:panelGrid columns="2"
+                                 style="float: right; margin: 10px 0px 10px 0px;">
+                        <p:commandButton
+                            update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao"
+                            oncomplete="ehValido(xhr, status, args)"
+                            actionListener="#{usuarioBean.salvar()}" value="Salvar"
+                            icon="ui-icon-check" />
+                        <p:commandButton value="Cancelar" oncomplete="cadastroDlg.hide();"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

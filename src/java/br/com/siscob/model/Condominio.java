@@ -41,7 +41,7 @@ public class Condominio extends AbstractEntity implements Serializable {
     private String cnpj;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "condominioId", fetch = FetchType.LAZY)
     private List<Boleto> boletoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "condominioId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "condominio", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
     @JoinColumn(name = "endereco_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)

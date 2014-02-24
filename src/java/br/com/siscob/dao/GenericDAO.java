@@ -45,7 +45,9 @@ public abstract class GenericDAO<T> {
      *
      * @param entity - Objeto T a ser excluido.
      */
-    public void save(T entity, EntityManager em) {
+    public void save(T entity) {
+        EntityManager em = FabricaConexao.obterManager();
+        
         em.persist(entity);
     }
 
@@ -54,7 +56,9 @@ public abstract class GenericDAO<T> {
      *
      * @param id - ID do objeto a ser excluido.
      */
-    public void delete(Object id, EntityManager em) {
+    public void delete(Object id) {
+        EntityManager em = FabricaConexao.obterManager();
+        
         em.remove(em.getReference(entityClass, ((AbstractEntity) id).getId()));
     }
 
@@ -64,43 +68,36 @@ public abstract class GenericDAO<T> {
      * @param entity - objeto T a ser atualizar.
      * @return
      */
-    public T update(T entity, EntityManager em) {
+    public T update(T entity) {
+        EntityManager em = FabricaConexao.obterManager();
+        
         return em.merge(entity);
     }
 
     /**
      * Método de consulta por ID.
      */
-    public T find(long entityID) {
+    public T find(int entityID) {
         EntityManager em = FabricaConexao.obterManager();
-        T objeto = em.find(entityClass, entityID);
-        em.close();
-        
-        return objeto;
+        return em.find(entityClass, entityID);
     }
 
     public List<T> consultar(Usuario usuario) {
         EntityManager em = FabricaConexao.obterManager();
-        List<T> objetos = ((Session) em.getDelegate())
+        return ((Session) em.getDelegate())
                 .createCriteria(entityClass)
                 .add(Restrictions.eq("usuario", usuario))
                 .addOrder(Order.asc("descricao"))
                 .list();
-        em.close();
-
-        return objetos;
     }
 
     public List<T> consultar(Usuario usuario, String ordenarPor) {
         EntityManager em = FabricaConexao.obterManager();
-        List<T> objetos = ((Session) em.getDelegate())
+        return ((Session) em.getDelegate())
                 .createCriteria(entityClass)
                 .add(Restrictions.eq("usuario", usuario))
                 .addOrder(Order.desc(ordenarPor))
                 .list();
-        em.close();
-        
-        return objetos;
     }
 
     // Using the unchecked because JPA does not have a
@@ -111,10 +108,8 @@ public abstract class GenericDAO<T> {
 
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
-        List<T> objetos = em.createQuery(cq).getResultList();
-        em.close();
 
-        return objetos;
+        return em.createQuery(cq).getResultList();
     }
 
     /**
@@ -127,24 +122,14 @@ public abstract class GenericDAO<T> {
      */
     @SuppressWarnings("unchecked")
     protected T findOneResult(String namedQuery, Map<String, Object> parameters) {
-        T result = null;
-
         EntityManager em = FabricaConexao.obterManager();
-        try {
-
-            Query query = em.createNamedQuery(namedQuery);
-            if (parameters != null && !parameters.isEmpty()) {
-                populateQueryParameters(query, parameters);
-            }
-            result = (T) query.getSingleResult();
-        } catch (Exception e) {
-            System.out.println("Error while running query: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            em.close();
+        
+        Query query = em.createNamedQuery(namedQuery);
+        if (parameters != null && !parameters.isEmpty()) {
+            populateQueryParameters(query, parameters);
         }
-
-        return result;
+        
+        return (T) query.getSingleResult();
     }
 
     /**
@@ -155,25 +140,14 @@ public abstract class GenericDAO<T> {
      * @return Lista de objetos<T>
      */
     protected List<T> findResultList(String namedQuery, Map<String, Object> parameters) {
-        List<T> result = null;
-
         EntityManager em = FabricaConexao.obterManager();
-        try {
 
-            Query query = em.createNamedQuery(namedQuery);
-            if (parameters != null && !parameters.isEmpty()) {
-                populateQueryParameters(query, parameters);
-            }
-
-            result = (List<T>) query.getResultList();
-        } catch (Exception e) {
-            System.out.println("Error while running query: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            em.close();
+        Query query = em.createNamedQuery(namedQuery);
+        if (parameters != null && !parameters.isEmpty()) {
+            populateQueryParameters(query, parameters);
         }
 
-        return result;
+        return (List<T>) query.getResultList();
     }
 
     /**
