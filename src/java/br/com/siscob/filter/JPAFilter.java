@@ -42,6 +42,7 @@ public class JPAFilter implements Filter {
             chain.doFilter(request, response);
             manager.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             manager.getTransaction().rollback();
         } finally {
             manager.close();

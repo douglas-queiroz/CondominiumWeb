@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.siscob.mb;
 
 import br.com.siscob.model.Condominio;
@@ -12,6 +11,7 @@ import br.com.siscob.neg.CondominioNeg;
 import br.com.siscob.neg.UsuarioNeg;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -20,7 +20,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends GenericBean<Usuario>{
+public class UsuarioBean extends GenericBean<Usuario> {
 
     private String filtroSimples;
     private String cpf;
@@ -28,7 +28,7 @@ public class UsuarioBean extends GenericBean<Usuario>{
     private List<Condominio> condominios;
     private Condominio condominio;
     private final CondominioNeg condominioNeg;
-    
+
     public UsuarioBean() {
         super(new UsuarioNeg());
         condominioNeg = new CondominioNeg();
@@ -59,9 +59,10 @@ public class UsuarioBean extends GenericBean<Usuario>{
     }
 
     public List<Condominio> getCondominios() {
-        if(condominios == null)
+        if (condominios == null) {
             condominios = condominioNeg.consultar();
-        
+        }
+
         return condominios;
     }
 
@@ -76,14 +77,14 @@ public class UsuarioBean extends GenericBean<Usuario>{
     public void setCondominio(Condominio condominio) {
         this.condominio = condominio;
     }
-    
-    public void filtrarDetalhado(){
+
+    public void filtrarDetalhado() {
         List<Usuario> usuarios = ((UsuarioNeg) super.obterNeg()).consultar(nomeUsuario, cpf, condominio);
         super.setListaObjetos(usuarios);
     }
-    
-    public void filtrarSimplificado(){
-        List<Usuario> usuarios = ((UsuarioNeg) super.obterNeg()).consultar(nomeUsuario, cpf);
+
+    public void filtrarSimplificado() {
+        List<Usuario> usuarios = ((UsuarioNeg) super.obterNeg()).consultar(filtroSimples);
         super.setListaObjetos(usuarios);
     }
 
@@ -96,5 +97,5 @@ public class UsuarioBean extends GenericBean<Usuario>{
     List<Usuario> carregarLista() {
         return ((UsuarioNeg) super.obterNeg()).consultar();
     }
-    
+
 }

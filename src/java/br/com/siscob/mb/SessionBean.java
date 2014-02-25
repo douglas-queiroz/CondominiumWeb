@@ -8,9 +8,10 @@ package br.com.siscob.mb;
 import br.com.siscob.model.Usuario;
 import br.com.siscob.neg.UsuarioNeg;
 import br.com.siscob.util.FacesUtil;
-import br.com.siscob.util.SegurancaUtil;
+import br.com.siscob.util.Util;
 import br.com.tronic.exception.ValidacaoException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -106,10 +107,13 @@ public class SessionBean extends GenericBean<Usuario> implements Serializable {
             if (!senha.equals(senhaConfirma)) {
                 FacesUtil.exibirMensagemAlerta("Atenção",
                         "As senha não estão iguais!");
-                throw new ValidacaoException("Usuário Iválido");
+                List<String> msg = new ArrayList<String>();
+                msg.add("Usuário Iválido");
+                
+                throw new ValidacaoException(msg);
             }
 
-            senha = SegurancaUtil.criptografar(senha);
+            senha = Util.criptografar(senha);
             
             usuario.setSenha(senha);
             ((UsuarioNeg) super.obterNeg()).salvar(usuario);
@@ -119,8 +123,15 @@ public class SessionBean extends GenericBean<Usuario> implements Serializable {
             senhaConfirma = "";
 
             FacesUtil.exibirMensagemSucesso("Sucesso", "Senha alterada com sucesso");
+        } catch (ValidacaoException e) {
+            for (String mensagem : e.getMensagens()) {
+                FacesUtil.exibirMensagemAlerta("Atenção", mensagem);
+            }
+            
+            context.addCallbackParam("valido", false);
         } catch (Exception e) {
             e.printStackTrace();
+            FacesUtil.exibirMensagemErro("Erro", "Ocorreu um erro ao salvar!");
             context.addCallbackParam("valido", false);
         }
     }

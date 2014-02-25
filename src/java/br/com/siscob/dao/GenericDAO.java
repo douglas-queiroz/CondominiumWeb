@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
@@ -128,8 +129,12 @@ public abstract class GenericDAO<T> {
         if (parameters != null && !parameters.isEmpty()) {
             populateQueryParameters(query, parameters);
         }
+        try {
+            return (T) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
         
-        return (T) query.getSingleResult();
     }
 
     /**

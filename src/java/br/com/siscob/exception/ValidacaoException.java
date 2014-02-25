@@ -4,15 +4,23 @@
  */
 package br.com.tronic.exception;
 
+import java.util.List;
+
 /**
  *
  * @author Douglas
  */
 @SuppressWarnings("serial")
-public class ValidacaoException extends Exception{
+public class ValidacaoException extends Exception {
 
-    public ValidacaoException(String message) {
-        super(message);
+    private List<String> mensagens;
+
+    public ValidacaoException(List<String> mensagens) {
+        super("Erro de validação");
+        this.mensagens = mensagens;
     }
-    
+
+    public List<String> getMensagens() {
+        return mensagens;
+    }
 }

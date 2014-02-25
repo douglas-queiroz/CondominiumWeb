@@ -26,15 +26,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "usuario", catalog = "siscob_db", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-    @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id"),
-    @NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u WHERE u.nome = :nome"),
-    @NamedQuery(name = "Usuario.findByCpf", query = "SELECT u FROM Usuario u WHERE u.cpf = :cpf"),
-    @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
-    @NamedQuery(name = "Usuario.findByNomeCpf", query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf"),
-    @NamedQuery(name = "Usuario.findByNomeOrCpf", query = "SELECT u FROM Usuario u WHERE u.nome like :nome or u.cpf like :cpf"),
-    @NamedQuery(name = "Usuario.findByNomeCpfCondominio", query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf and u.condominio =:condominio"),
-    @NamedQuery(name = "Usuario.findByPermissao", query = "SELECT u FROM Usuario u WHERE u.permissao = :permissao")})
+    @NamedQuery(name = "Usuario.findAll", 
+                query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findById", 
+                query = "SELECT u FROM Usuario u WHERE u.id = :id"),
+    @NamedQuery(name = "Usuario.findByNome", 
+                query = "SELECT u FROM Usuario u WHERE u.nome = :nome"),
+    @NamedQuery(name = "Usuario.findByCpf", 
+                query = "SELECT u FROM Usuario u WHERE u.cpf = :cpf"),
+    @NamedQuery(name = "Usuario.findBySenha", 
+                query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
+    @NamedQuery(name = "Usuario.findByNomeCpf", 
+                query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf"),
+    @NamedQuery(name = "Usuario.findByFiltroDefault", 
+                query = "SELECT u FROM Usuario u WHERE u.nome like :filtroDefault or u.cpf like :filtroDefault"),
+    @NamedQuery(name = "Usuario.findByNomeCpfCondominio", 
+                query = "SELECT u FROM Usuario u WHERE u.nome like :nome and u.cpf like :cpf and u.condominio =:condominio"),
+    @NamedQuery(name = "Usuario.findByPermissao", 
+                query = "SELECT u FROM Usuario u WHERE u.permissao = :permissao")})
 public class Usuario extends AbstractEntity implements Serializable {
     
     @Column(name = "nome", length = 200)
@@ -60,14 +69,6 @@ public class Usuario extends AbstractEntity implements Serializable {
     public Usuario(Integer id, String permissao) {
         this.id = id;
         this.permissao = permissao;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -105,29 +106,13 @@ public class Usuario extends AbstractEntity implements Serializable {
     public Condominio getCondominio() {
         return condominio;
     }
+    
+    public void setCondominio(Integer idCondominio) {        
+        this.condominio = new Condominio(idCondominio);
+    }
 
     public void setCondominio(Condominio condominioId) {
         this.condominio = condominioId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
-            return false;
-        }
-        Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

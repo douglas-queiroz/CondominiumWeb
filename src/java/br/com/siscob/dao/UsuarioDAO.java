@@ -7,10 +7,15 @@ package br.com.siscob.dao;
 
 import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
+import br.com.siscob.util.FabricaConexao;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Classe DAO de usuario
@@ -45,12 +50,11 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
         }
     }
 
-    public List<Usuario> consultar(String nome, String cpf) {
+    public List<Usuario> consultar(String filtroDefault) {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("nome", "%" + nome + "%");
-        param.put("cpf", "%" + cpf + "%");
+        param.put("filtroDefault", "%" + filtroDefault + "%");
         
-        return super.findResultList("Usuario.findByNomeOrCpf", param);
+        return super.findResultList("Usuario.findByFiltroDefault", param);
     }
 
     /**

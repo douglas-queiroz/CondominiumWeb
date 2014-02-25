@@ -38,6 +38,7 @@ import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
     @NamedQuery(name = "Endereco.findByLogradouro", query = "SELECT e FROM Endereco e WHERE e.logradouro = :logradouro"),
     @NamedQuery(name = "Endereco.findByNumero", query = "SELECT e FROM Endereco e WHERE e.numero = :numero")})
 public class Endereco extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 5944888391993171403L;
     
     @Basic(optional = false)
     @Column(name = "cidade", nullable = false, length = 250)
@@ -75,14 +76,6 @@ public class Endereco extends AbstractEntity implements Serializable {
         this.bairro = bairro;
         this.logradouro = logradouro;
         this.numero = numero;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getCidade() {
@@ -140,27 +133,6 @@ public class Endereco extends AbstractEntity implements Serializable {
 
     public void setCondominioList(List<Condominio> condominioList) {
         this.condominioList = condominioList;
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Endereco)) {
-            return false;
-        }
-        Endereco other = (Endereco) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

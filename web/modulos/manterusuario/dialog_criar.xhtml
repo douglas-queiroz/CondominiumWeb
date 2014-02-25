@@ -14,9 +14,9 @@
                 <h:panelGrid id="pgInformacao" style="margin-bottom:10px">
                     <h:panelGrid columns="2">
                         <h:panelGrid>
-                            <h:outputLabel value="Login: " />
-                            <p:inputText value="#{usuarioBean.objeto.cpf}" size="30"
-                                         maxlength="30" />
+                            <h:outputLabel value="CPF: " />
+                            <p:inputMask id="cnpj" mask="999.999.999-99"
+                                         value="#{usuarioBean.objeto.cpf}" />
                         </h:panelGrid>
 
                         <h:panelGrid style="margin-left: 5px;">
@@ -32,15 +32,15 @@
                                          value="#{usuarioBean.objeto.nome}" title=""
                                          styleLabel="margin-bottom: 5px;" maxlength="150" size="55" />
                     </h:panelGrid>
-                    
-                    <h:outputLabel value="Codomínio: " for="codigominio"/>
-                    <p:selectOneMenu id="codigominio" value="#{usuarioBean.objeto.condominio}" 
-                                     converter="CondominioConverter">
-                        <f:selectItem itemLabel="Selecione um Condomínio" itemValue="null"/>
-                        <f:selectItems value="#{usuarioBean.condominios}" var="_condominio"
-                                       itemLabel="#{_condominio.nome}" 
-                                       itemValue="#{_condominio}"/>
+
+                    <h:outputText value="Cliente: " />
+                    <p:selectOneMenu value="#{usuarioBean.objeto.condominio}"
+                                     style="width: 300px;" effect="fade" converter="CondominioConverter"
+                                     id="cliente_titulo">
+                        <f:selectItems value="#{usuarioBean.condominios}" var="condominio"
+                                       itemLabel="#{condominio.nome}" itemValue="#{condominio}" />
                     </p:selectOneMenu>
+
                     <h:panelGrid columns="2"
                                  style="float: right; margin: 10px 0px 10px 0px;">
                         <p:commandButton

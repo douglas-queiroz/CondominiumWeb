@@ -38,6 +38,7 @@ import org.jrimum.bopepo.BancosSuportados;
     @NamedQuery(name = "Conta.findByDigitoAg", query = "SELECT c FROM Conta c WHERE c.digitoAg = :digitoAg"),
     @NamedQuery(name = "Conta.findByCarteira", query = "SELECT c FROM Conta c WHERE c.carteira = :carteira")})
 public class Conta extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 6945226028990941443L;
     
     @Basic(optional = false)
     @Column(name = "banco", nullable = false)
@@ -140,26 +141,6 @@ public class Conta extends AbstractEntity implements Serializable {
 
     public void setBoletoList(List<Boleto> boletoList) {
         this.boletoList = boletoList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Conta)) {
-            return false;
-        }
-        Conta other = (Conta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

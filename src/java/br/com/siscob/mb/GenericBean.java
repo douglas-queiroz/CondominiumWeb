@@ -7,6 +7,7 @@ package br.com.siscob.mb;
 
 import br.com.siscob.neg.GenericNeg;
 import br.com.siscob.util.FacesUtil;
+import br.com.tronic.exception.ValidacaoException;
 import java.util.List;
 import org.eclipse.persistence.exceptions.ValidationException;
 import org.primefaces.context.RequestContext;
@@ -23,9 +24,9 @@ public abstract class GenericBean<T> {
      * Entidade principal da view
      */
     private T objeto;
-    
+
     private GenericNeg<T> neg;
-    
+
     /**
      * Lista da entidade principal
      */
@@ -33,6 +34,7 @@ public abstract class GenericBean<T> {
 
     /**
      * Construtor
+     *
      * @param neg
      */
     public GenericBean(GenericNeg<T> neg) {
@@ -46,10 +48,10 @@ public abstract class GenericBean<T> {
     public void prepararAdicionar() {
         this.objeto = this.iniciarObjeto();
     }
-    
+
     /**
      * Este método é executado no clicl do editar.
-     * 
+     *
      * @param objeto - Objeto a ser editado
      */
     public void prepararEditar(T objeto) {
@@ -58,19 +60,27 @@ public abstract class GenericBean<T> {
 
     /**
      * Método generico para insert e update
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     public void salvar() {
         RequestContext context = RequestContext.getCurrentInstance();
-        
+
         try {
             this.obterNeg().salvar(this.getObjeto());
             FacesUtil.exibirMensagemSucesso("Sucesso", "Registro salva com sucesso!");
             context.addCallbackParam("valido", true);
-            
+
             listaObjetos = this.carregarLista();
+        } catch (ValidacaoException e) {
+            for (String mensagem : e.getMensagens()) {
+                FacesUtil.exibirMensagemAlerta("Atenção", mensagem);
+            }
+            
+            context.addCallbackParam("valido", false);
         } catch (Exception e) {
+            e.printStackTrace();
+            FacesUtil.exibirMensagemErro("Erro", "Ocorreu um erro ao salvar!");
             context.addCallbackParam("valido", false);
         }
     }
@@ -84,6 +94,7 @@ public abstract class GenericBean<T> {
             this.obterNeg().excluir(this.getObjeto());
             listaObjetos = this.carregarLista();
         } catch (ValidationException e) {
+            FacesUtil.exibirMensagemAlerta("Atenção", e.getMessage());
         }
     }
 
@@ -109,19 +120,19 @@ public abstract class GenericBean<T> {
 
     /**
      * Métedo para instanciar a conta e suas dependências.
-     * 
+     *
      * @return Conta
      */
     abstract T iniciarObjeto();
 
     /**
      * Método de consulta para popular o grid.
-     * 
+     *
      * @return Lista de objetos
      */
     abstract List<T> carregarLista();
-    
-    protected GenericNeg<T> obterNeg(){
+
+    protected GenericNeg<T> obterNeg() {
         return neg;
     }
 }
