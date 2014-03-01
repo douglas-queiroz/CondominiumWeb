@@ -7,12 +7,14 @@
 package br.com.siscob.dao;
 
 import br.com.siscob.model.Conta;
+import java.io.Serializable;
 
 /**
  *
  * @author Douglas
  */
-public class ContaDAO extends GenericDAO<Conta>{
+public class ContaDAO extends GenericDAO<Conta> implements Serializable{
+    private static final long serialVersionUID = 5649966185971245427L;
 
     public ContaDAO() {
         super(Conta.class);

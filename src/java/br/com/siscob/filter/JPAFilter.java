@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -35,8 +36,16 @@ public class JPAFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         EntityManager manager = factory.createEntityManager();
-        request.setAttribute("EntityManager", manager);
-        manager.getTransaction().begin();
+        
+        try {
+            manager.getTransaction().begin();
+        } catch (PersistenceException e) {
+            this.factory = Persistence.createEntityManagerFactory(UNIT_NAME);
+            manager = factory.createEntityManager();
+        }finally{
+            request.setAttribute("EntityManager", manager);
+        }
+        
 
         try {
             chain.doFilter(request, response);

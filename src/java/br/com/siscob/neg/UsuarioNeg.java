@@ -21,7 +21,7 @@ import java.util.List;
  * @author Douglas Queiroz
  */
 public class UsuarioNeg extends GenericNeg<Usuario> implements Serializable{
-    private static final long serialVersionUID = 2111430079214063708L;
+    private static final long serialVersionUID = -6111899387890527860L;
 
     public UsuarioNeg() {
         super(new UsuarioDAO());

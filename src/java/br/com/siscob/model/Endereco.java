@@ -38,8 +38,8 @@ import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
     @NamedQuery(name = "Endereco.findByLogradouro", query = "SELECT e FROM Endereco e WHERE e.logradouro = :logradouro"),
     @NamedQuery(name = "Endereco.findByNumero", query = "SELECT e FROM Endereco e WHERE e.numero = :numero")})
 public class Endereco extends AbstractEntity implements Serializable {
-    private static final long serialVersionUID = 5944888391993171403L;
-    
+    private static final long serialVersionUID = -7669717239740701980L;
+        
     @Basic(optional = false)
     @Column(name = "cidade", nullable = false, length = 250)
     private String cidade;

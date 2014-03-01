@@ -7,15 +7,10 @@ package br.com.siscob.dao;
 
 import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
-import br.com.siscob.util.FabricaConexao;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.EntityManager;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 /**
  * Classe DAO de usuario
@@ -23,12 +18,7 @@ import org.hibernate.criterion.Restrictions;
  * @author Douglas Queiroz
  */
 public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
-
-    /**
-     * UID serial version
-     */
-    private static final long serialVersionUID = 415437696759735269L;
-
+    private static final long serialVersionUID = -278035410354030361L;
     /**
      * Contrutor
      */
@@ -68,5 +58,4 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
         param.put("cpf", login);
         return super.findOneResult("Usuario.findByCpf", param);
     }
-
 }

@@ -8,10 +8,11 @@
                             http://www.springframework.org/schema/security/spring-security-3.0.xsd">
     
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/index.jsf" access="hasRole('ROLE_ADM')"/>
+        <intercept-url pattern="/index.jsf" access="hasAnyRole('ROLE_ADM', 'ROLE_USER')"/>
         <intercept-url pattern="/modulos/manterconta/*" access="hasRole('ROLE_ADM')"/>
         <intercept-url pattern="/modulos/mantercondominio/*" access="hasRole('ROLE_ADM')"/>
         <intercept-url pattern="/modulos/manterusuario/*" access="hasRole('ROLE_ADM')"/>
+        <intercept-url pattern="/modulos/manterboleto/*" access="hasRole('ROLE_ADM')"/>
         <form-login login-page="/login.jsf" authentication-failure-url="/login.jsf?erro=true"/>
         <access-denied-handler error-page="/?negado=true"/>
     </http>

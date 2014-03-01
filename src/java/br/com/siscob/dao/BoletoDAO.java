@@ -6,18 +6,17 @@
 
 package br.com.siscob.dao;
 
-import br.com.siscob.model.Condominio;
+import br.com.siscob.model.Boleto;
 import java.io.Serializable;
 
 /**
  *
  * @author Douglas
  */
-public class CondominioDAO extends GenericDAO<Condominio> implements Serializable{
-    private static final long serialVersionUID = 8157578541153630281L;
+public class BoletoDAO extends GenericDAO<Boleto> implements Serializable{
+    private static final long serialVersionUID = 2464574925238792909L;
 
-    public CondominioDAO() {
-        super(Condominio.class);
+    public BoletoDAO() {
+        super(Boleto.class);
     }
-    
 }

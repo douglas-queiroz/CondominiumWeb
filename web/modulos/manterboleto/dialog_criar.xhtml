@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes">
+    <h:body>
+        <p:dialog id="dialogCadastro" header="Gerar boletos"
+                  widgetVar="cadastroDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formCadastro">
+                <h:panelGrid id="pgInformacao" style="margin-bottom:10px">
+                    <h:outputText value="Condomínio: " />
+                    <p:selectOneMenu value="#{boletoBean.objeto.condominioId}"
+                                     style="width: 300px;" effect="fade" converter="CondominioConverter"
+                                     id="boleto_condominio">
+                        <f:selectItems value="#{boletoBean.condominios}" var="condominio"
+                                       itemLabel="#{condominio.nome}" itemValue="#{condominio}" />
+                    </p:selectOneMenu>
+                    
+                    <h:outputText value="Conta: " />
+                    <p:selectOneMenu value="#{boletoBean.objeto.contaId}"
+                                     style="width: 300px;" effect="fade" converter="ContaConverter"
+                                     id="boleto_conta">
+                        <f:selectItems value="#{boletoBean.contas}" var="conta"
+                                       itemLabel="#{conta.banco.toString()} - CC.: #{conta.conta}-#{conta.digitoCc}" 
+                                       itemValue="#{conta}" />
+                    </p:selectOneMenu>
+
+                    <h:panelGrid columns="2" >
+                        <util:campoNumero id="cod_operacao" label="Cód. operação" 
+                                          value="#{boletoBean.objeto.codigoOperacao}" title=""
+                                          style="margin: 0px 0px 5px 0px;"
+                                          styleLabel="margin: 7px 0px 5px 0px;"/>
+
+                        <util:campoDinheiro label="Valor" id="rec_mes_fatura"
+                                            title="" value="#{boletoBean.objeto.valor}"
+                                            style="margin: 0px 20px 5px 5px;"
+                                            styleLabel="margin: 7px 20px 5px 5px;" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="margin-bottom: 5px;" >
+                        <util:campoData id="data_documento" label="Data documento "
+                                        value="#{boletoBean.objeto.dataDocumento}" title=""
+                                        style="margin: 7px 0px 5px 0px;"
+                                        styleLabel="margin: 7px 0px 5px 0px;"/>
+
+                        <util:campoData id="data_vencimento" label="Data vencimento" title=""
+                                        value="#{boletoBean.objeto.dataVencimento}"
+                                        style="margin: 7px 20px 5px 5px;"
+                                        styleLabel="margin: 7px 20px 5px 5px;"/>
+                    </h:panelGrid>
+
+                    <util:campoTexto id="local_pagamento" label="Local Pagamento"
+                                     value="#{boletoBean.objeto.localPagamento}"
+                                     size="60"/>
+
+                    <util:campoTexto id="instrucao_pagamento" label="Instrução Pagamento"
+                                     value="#{boletoBean.objeto.instrucaoPagamento}" 
+                                     size="60"/>
+
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="Tipo titulo: " />
+                            <p:selectOneMenu id="tipo_servico"
+                                             style="margin-bottom: 5px; margin-top: 5px; width: 200px;"
+                                             value="#{boletoBean.objeto.tipoTitulo}">
+                                <f:selectItems value="#{boletoBean.tiposTitulo}"
+                                               var="tipoTitulo" itemValue="#{tipoTitulo}"
+                                               itemLabel="#{tipoTitulo.toString()}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2"
+                                 style="float: right; margin: 10px 0px 0px 0px;">
+                        <p:commandButton
+                            update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao :formBoletosGerados"
+                            oncomplete="boletoValido(xhr, status, args)"
+                            actionListener="#{boletoBean.gerarBoletos()}" value="Gerar"
+                            icon="ui-icon-check" />
+                        <p:commandButton value="Cancelar" oncomplete="cadastroDlg.hide();"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

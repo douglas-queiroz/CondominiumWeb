@@ -8,6 +8,7 @@ package br.com.siscob.mb;
 
 import br.com.siscob.model.Condominio;
 import br.com.siscob.neg.CondominioNeg;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -20,7 +21,8 @@ import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
  */
 @ManagedBean
 @ViewScoped
-public class CondominioBean extends GenericBean<Condominio>{
+public class CondominioBean extends GenericBean<Condominio> implements Serializable{
+    private static final long serialVersionUID = 7943810166771452995L;
 
     public CondominioBean() {
         super(new CondominioNeg());

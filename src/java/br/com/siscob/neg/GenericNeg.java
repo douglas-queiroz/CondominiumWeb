@@ -8,9 +8,7 @@ package br.com.siscob.neg;
 import br.com.siscob.dao.GenericDAO;
 import br.com.siscob.model.AbstractEntity;
 import br.com.siscob.model.Usuario;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.persistence.exceptions.ValidationException;
 
 /**

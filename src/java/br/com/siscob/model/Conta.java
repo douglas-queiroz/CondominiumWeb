@@ -38,7 +38,7 @@ import org.jrimum.bopepo.BancosSuportados;
     @NamedQuery(name = "Conta.findByDigitoAg", query = "SELECT c FROM Conta c WHERE c.digitoAg = :digitoAg"),
     @NamedQuery(name = "Conta.findByCarteira", query = "SELECT c FROM Conta c WHERE c.carteira = :carteira")})
 public class Conta extends AbstractEntity implements Serializable {
-    private static final long serialVersionUID = 6945226028990941443L;
+    private static final long serialVersionUID = 843876932328973184L;
     
     @Basic(optional = false)
     @Column(name = "banco", nullable = false)
@@ -58,7 +58,7 @@ public class Conta extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "carteira", nullable = false)
     private int carteira;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contaId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contaId", fetch = FetchType.EAGER)
     private List<Boleto> boletoList;
 
     public Conta() {

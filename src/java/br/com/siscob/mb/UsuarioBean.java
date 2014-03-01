@@ -9,9 +9,9 @@ import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
 import br.com.siscob.neg.CondominioNeg;
 import br.com.siscob.neg.UsuarioNeg;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -20,9 +20,10 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends GenericBean<Usuario> {
-
-    private String filtroSimples;
+public class UsuarioBean extends GenericBean<Usuario> implements Serializable{
+    private static final long serialVersionUID = -3314686210464719404L;
+    
+    private String filtroSimples = "";
     private String cpf;
     private String nomeUsuario;
     private List<Condominio> condominios;
@@ -95,7 +96,7 @@ public class UsuarioBean extends GenericBean<Usuario> {
 
     @Override
     List<Usuario> carregarLista() {
-        return ((UsuarioNeg) super.obterNeg()).consultar();
+        return super.obterNeg().consultar();
     }
 
 }

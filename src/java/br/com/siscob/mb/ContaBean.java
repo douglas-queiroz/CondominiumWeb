@@ -13,11 +13,7 @@ import org.jrimum.bopepo.BancosSuportados;
 @ManagedBean
 @ViewScoped
 public class ContaBean extends GenericBean<Conta> implements Serializable {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5806403324906112069L;
 
     public ContaBean() {
         super(new ContaNeg());

@@ -29,11 +29,7 @@ import org.springframework.security.core.userdetails.User;
 @ManagedBean
 @SessionScoped
 public class SessionBean extends GenericBean<Usuario> implements Serializable {
-
-    /**
-     * UID serial version
-     */
-    private static final long serialVersionUID = -4824275057863504695L;
+    private static final long serialVersionUID = -2754969057824522777L;
 
     /**
      * Usuário

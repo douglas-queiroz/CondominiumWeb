@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:util="http://java.sun.com/jsf/composite/componentes"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <p:dialog id="dialogBoletosGerados" header="Boletos gerados"
+                  widgetVar="boletosGeradosDlg" resizable="false" modal="true"
+                  showEffect="slide">
+            <h:form id="formBoletosGerados">
+                <h:panelGrid id="pgInformacao">
+                    <c:forEach var="boleto" items="#{boletoBean.boletosGerados}">
+                        <h:panelGrid style="margin-top: 5px;">
+                            <h:outputLabel value="Cliente: #{boleto.usuario.nome}"/>
+                            <h:outputLabel value="CPF: #{boleto.usuario.cpf}"/>
+                            <h:panelGrid columns="4" style="margin-top: 5px;">
+                                <h:outputLabel value="Nosso número: "/>
+                                <p:inputText value="#{boleto.nossoNumero}"/> - 
+                                <p:inputText value="#{boleto.digitoNossoNumero}" size="2"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <hr />
+                    </c:forEach>
+                    <h:panelGrid columns="2"
+                                 style="float: right; margin: 10px 0px 0px 0px;">
+                        <p:commandButton
+                            update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao"
+                            oncomplete="boletosGeradosValido(xhr, status, args)"
+                            actionListener="#{boletoBean.salvar()}" value="Salvar"
+                            icon="ui-icon-check" />
+                        <p:commandButton value="Cancelar" oncomplete="boletosGeradosDlg.hide();"
+                                         icon="ui-icon-close" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

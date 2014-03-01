@@ -7,6 +7,7 @@
 package br.com.siscob.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -45,6 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findByPermissao", 
                 query = "SELECT u FROM Usuario u WHERE u.permissao = :permissao")})
 public class Usuario extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = -5739285072005349727L;
     
     @Column(name = "nome", length = 200)
     private String nome;
@@ -58,6 +61,8 @@ public class Usuario extends AbstractEntity implements Serializable {
     @JoinColumn(name = "condominio_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Condominio condominio;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<Boleto> boletos;
 
     public Usuario() {
     }
@@ -113,6 +118,14 @@ public class Usuario extends AbstractEntity implements Serializable {
 
     public void setCondominio(Condominio condominioId) {
         this.condominio = condominioId;
+    }
+
+    public List<Boleto> getBoletos() {
+        return boletos;
+    }
+
+    public void setBoletos(List<Boleto> boletos) {
+        this.boletos = boletos;
     }
 
     @Override

@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
+import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 
 /**
  *
@@ -49,8 +51,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Boleto.findByLocalPagamento", query = "SELECT b FROM Boleto b WHERE b.localPagamento = :localPagamento"),
     @NamedQuery(name = "Boleto.findByInstrucaoPagamento", query = "SELECT b FROM Boleto b WHERE b.instrucaoPagamento = :instrucaoPagamento")})
 public class Boleto extends AbstractEntity implements Serializable {
-    private static final long serialVersionUID = 3088501999986467826L;
-    
+    private static final long serialVersionUID = -7327740356689539576L;
+        
     @Column(name = "codigo_operacao", nullable = false)
     private int codigoOperacao;
     @Basic(optional = false)
@@ -65,7 +67,7 @@ public class Boleto extends AbstractEntity implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "valor", nullable = false, precision = 19, scale = 2)
-    private BigDecimal valor;
+    private double valor;
     @Basic(optional = false)
     @Column(name = "data_documento", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -76,10 +78,10 @@ public class Boleto extends AbstractEntity implements Serializable {
     private Date dataVencimento;
     @Basic(optional = false)
     @Column(name = "tipo_titulo", nullable = false)
-    private int tipoTitulo;
+    private TipoDeTitulo tipoTitulo;
     @Basic(optional = false)
     @Column(name = "aceite", nullable = false)
-    private int aceite;
+    private Aceite aceite = Aceite.N;
     @Basic(optional = false)
     @Column(name = "desconto", nullable = false, precision = 19, scale = 2)
     private BigDecimal desconto;
@@ -105,11 +107,19 @@ public class Boleto extends AbstractEntity implements Serializable {
     @JoinColumn(name = "conta_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Conta contaId;
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario usuario;
 
     public Boleto() {
     }
 
-    public Boleto(Integer id, int codigoOperacao, String numeroDocumento, String nossoNumero, String digitoNossoNumero, BigDecimal valor, Date dataDocumento, Date dataVencimento, int tipoTitulo, int aceite, BigDecimal desconto, BigDecimal deducao, BigDecimal mora, BigDecimal acrescimo, BigDecimal valorCobrado) {
+    public Boleto(Integer id, int codigoOperacao, String numeroDocumento, 
+            String nossoNumero, String digitoNossoNumero, double valor, 
+            Date dataDocumento, Date dataVencimento, TipoDeTitulo tipoTitulo, 
+            Aceite aceite, BigDecimal desconto, BigDecimal deducao, BigDecimal mora, 
+            BigDecimal acrescimo, BigDecimal valorCobrado) {
+        
         super.id = id;
         this.codigoOperacao = codigoOperacao;
         this.numeroDocumento = numeroDocumento;
@@ -125,14 +135,6 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.mora = mora;
         this.acrescimo = acrescimo;
         this.valorCobrado = valorCobrado;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public int getCodigoOperacao() {
@@ -167,11 +169,11 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.digitoNossoNumero = digitoNossoNumero;
     }
 
-    public BigDecimal getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
@@ -191,19 +193,19 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.dataVencimento = dataVencimento;
     }
 
-    public int getTipoTitulo() {
+    public TipoDeTitulo getTipoTitulo() {
         return tipoTitulo;
     }
 
-    public void setTipoTitulo(int tipoTitulo) {
+    public void setTipoTitulo(TipoDeTitulo tipoTitulo) {
         this.tipoTitulo = tipoTitulo;
     }
 
-    public int getAceite() {
+    public Aceite getAceite() {
         return aceite;
     }
 
-    public void setAceite(int aceite) {
+    public void setAceite(Aceite aceite) {
         this.aceite = aceite;
     }
 
@@ -279,9 +281,41 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.contaId = contaId;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
         return "br.com.siscob.model.Boleto[ id=" + id + " ]";
     }
-    
+
+    @Override
+    public Boleto clone() throws CloneNotSupportedException {
+        Boleto boleto = new Boleto();
+        boleto.setAceite(this.aceite);
+        boleto.setAcrescimo(this.acrescimo);
+        boleto.setCodigoOperacao(this.codigoOperacao);
+        boleto.setCondominioId(this.condominioId);
+        boleto.setContaId(this.contaId);
+        boleto.setDataDocumento(this.dataDocumento);
+        boleto.setDataVencimento(this.dataVencimento);
+        boleto.setDeducao(this.deducao);
+        boleto.setDesconto(this.desconto);
+        boleto.setDigitoNossoNumero(this.digitoNossoNumero);
+        boleto.setInstrucaoPagamento(this.instrucaoPagamento);
+        boleto.setLocalPagamento(this.localPagamento);
+        boleto.setMora(this.mora);
+        boleto.setNossoNumero(this.nossoNumero);
+        boleto.setNumeroDocumento(this.numeroDocumento);
+        boleto.setTipoTitulo(this.tipoTitulo);
+        boleto.setValor(this.valor);
+        boleto.setValorCobrado(this.valorCobrado);
+        
+        return boleto;
+    }
 }

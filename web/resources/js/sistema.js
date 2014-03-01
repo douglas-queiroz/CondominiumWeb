@@ -13,6 +13,29 @@ function ehValido(xhr, status, args) {
 	}
 }
 
+function boletoValido(xhr, status, args) {
+	if (args.validationFailed || !args.valido) {
+		jQuery('#dialogCadastro').effect("shake", {
+			times : 3
+		}, 100);
+	} else {
+		cadastroDlg.hide();
+                boletosGeradosDlg.show();
+		jQuery('#loginLink').fadeOut();
+	}
+}
+
+function boletosGeradosValido(xhr, status, args) {
+	if (args.validationFailed || !args.valido) {
+		jQuery('#dialogBoletosGerados').effect("shake", {
+			times : 3
+		}, 100);
+	} else {
+		boletosGeradosDlg.hide();
+		jQuery('#loginLink').fadeOut();
+	}
+}
+
 function ehItemValido(xhr, status, args) {
 	if (args.validationFailed || !args.valido) {
 		jQuery('#dialogCadastroItem').effect("shake", {
