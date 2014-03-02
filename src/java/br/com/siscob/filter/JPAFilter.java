@@ -42,6 +42,7 @@ public class JPAFilter implements Filter {
         } catch (PersistenceException e) {
             this.factory = Persistence.createEntityManagerFactory(UNIT_NAME);
             manager = factory.createEntityManager();
+            manager.getTransaction().begin();
         }finally{
             request.setAttribute("EntityManager", manager);
         }

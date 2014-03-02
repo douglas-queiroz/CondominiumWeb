@@ -7,7 +7,6 @@
 package br.com.siscob.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -57,13 +56,13 @@ public class Boleto extends AbstractEntity implements Serializable {
     private int codigoOperacao;
     @Basic(optional = false)
     @Column(name = "numero_documento", nullable = false, length = 200)
-    private String numeroDocumento;
+    private String numeroDocumento = "";
     @Basic(optional = false)
     @Column(name = "nosso_numero", nullable = false, length = 100)
     private String nossoNumero;
     @Basic(optional = false)
     @Column(name = "digito_nosso_numero", nullable = false, length = 10)
-    private String digitoNossoNumero;
+    private String digitoNossoNumero = "";
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "valor", nullable = false, precision = 19, scale = 2)
@@ -84,19 +83,19 @@ public class Boleto extends AbstractEntity implements Serializable {
     private Aceite aceite = Aceite.N;
     @Basic(optional = false)
     @Column(name = "desconto", nullable = false, precision = 19, scale = 2)
-    private BigDecimal desconto;
+    private double desconto = 0;
     @Basic(optional = false)
     @Column(name = "deducao", nullable = false, precision = 19, scale = 2)
-    private BigDecimal deducao;
+    private double deducao = 0;
     @Basic(optional = false)
     @Column(name = "mora", nullable = false, precision = 19, scale = 2)
-    private BigDecimal mora;
+    private double mora = 0;
     @Basic(optional = false)
     @Column(name = "acrescimo", nullable = false, precision = 19, scale = 2)
-    private BigDecimal acrescimo;
+    private double acrescimo = 0;
     @Basic(optional = false)
     @Column(name = "valor_cobrado", nullable = false, precision = 19, scale = 2)
-    private BigDecimal valorCobrado;
+    private double valorCobrado;
     @Column(name = "local_pagamento", length = 250)
     private String localPagamento;
     @Column(name = "instrucao_pagamento", length = 250)
@@ -105,7 +104,7 @@ public class Boleto extends AbstractEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Condominio condominioId;
     @JoinColumn(name = "conta_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Conta contaId;
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -117,8 +116,8 @@ public class Boleto extends AbstractEntity implements Serializable {
     public Boleto(Integer id, int codigoOperacao, String numeroDocumento, 
             String nossoNumero, String digitoNossoNumero, double valor, 
             Date dataDocumento, Date dataVencimento, TipoDeTitulo tipoTitulo, 
-            Aceite aceite, BigDecimal desconto, BigDecimal deducao, BigDecimal mora, 
-            BigDecimal acrescimo, BigDecimal valorCobrado) {
+            Aceite aceite, double desconto, double deducao, double mora, 
+            double acrescimo, double valorCobrado) {
         
         super.id = id;
         this.codigoOperacao = codigoOperacao;
@@ -175,6 +174,7 @@ public class Boleto extends AbstractEntity implements Serializable {
 
     public void setValor(double valor) {
         this.valor = valor;
+        this.valorCobrado = valor;
     }
 
     public Date getDataDocumento() {
@@ -209,43 +209,43 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.aceite = aceite;
     }
 
-    public BigDecimal getDesconto() {
+    public double getDesconto() {
         return desconto;
     }
 
-    public void setDesconto(BigDecimal desconto) {
+    public void setDesconto(double desconto) {
         this.desconto = desconto;
     }
 
-    public BigDecimal getDeducao() {
+    public double getDeducao() {
         return deducao;
     }
 
-    public void setDeducao(BigDecimal deducao) {
+    public void setDeducao(double deducao) {
         this.deducao = deducao;
     }
 
-    public BigDecimal getMora() {
+    public double getMora() {
         return mora;
     }
 
-    public void setMora(BigDecimal mora) {
+    public void setMora(double mora) {
         this.mora = mora;
     }
 
-    public BigDecimal getAcrescimo() {
+    public double getAcrescimo() {
         return acrescimo;
     }
 
-    public void setAcrescimo(BigDecimal acrescimo) {
+    public void setAcrescimo(double acrescimo) {
         this.acrescimo = acrescimo;
     }
 
-    public BigDecimal getValorCobrado() {
+    public double getValorCobrado() {
         return valorCobrado;
     }
 
-    public void setValorCobrado(BigDecimal valorCobrado) {
+    public void setValorCobrado(double valorCobrado) {
         this.valorCobrado = valorCobrado;
     }
 

@@ -7,7 +7,14 @@
 package br.com.siscob.dao;
 
 import br.com.siscob.model.Boleto;
+import br.com.siscob.model.Usuario;
+import br.com.siscob.util.FabricaConexao;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -18,5 +25,14 @@ public class BoletoDAO extends GenericDAO<Boleto> implements Serializable{
 
     public BoletoDAO() {
         super(Boleto.class);
+    }
+    
+    public List<Boleto> consultar(Usuario usuario) {
+        EntityManager em = FabricaConexao.obterManager();
+        return ((Session) em.getDelegate())
+                .createCriteria(Boleto.class)
+                .add(Restrictions.eq("usuario", usuario))
+                .addOrder(Order.asc("dataVencimento"))
+                .list();
     }
 }

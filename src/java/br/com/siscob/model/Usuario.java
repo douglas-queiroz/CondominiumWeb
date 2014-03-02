@@ -59,7 +59,7 @@ public class Usuario extends AbstractEntity implements Serializable {
     @Column(name = "permissao", nullable = false, length = 45)
     private String permissao;
     @JoinColumn(name = "condominio_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Condominio condominio;
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Boleto> boletos;

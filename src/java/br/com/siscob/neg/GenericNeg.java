@@ -40,10 +40,6 @@ public abstract class GenericNeg<T> {
         return this.obterDAO().find(id);
     }
 
-    public List<T> consultar(Usuario usuario) {
-        return this.obterDAO().consultar(usuario);
-    }
-
     public List<T> consultar() {
         return this.obterDAO().consultar();
     }

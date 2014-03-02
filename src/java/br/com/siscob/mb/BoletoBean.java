@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.primefaces.context.RequestContext;
@@ -30,7 +30,7 @@ import org.primefaces.context.RequestContext;
  * @author Douglas
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class BoletoBean extends GenericBean<Boleto> implements Serializable {
 
     private static final long serialVersionUID = 3710391879720577473L;
@@ -73,9 +73,12 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
             for (Usuario usuario : super.getObjeto().getCondominioId().getUsuarioList()) {
                 Boleto boleto = super.getObjeto().clone();
                 boleto.setUsuario(usuario);
-
+                
                 boletosGerados.add(boleto);
             }
+            
+            this.salvar();
+            
             context.addCallbackParam("valido", true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(BoletoBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +148,7 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
 
         try {
             for (Boleto boleto : boletosGerados) {
-                this.obterNeg().salvar(boleto);
+                ((BoletoNeg) this.obterNeg()).salvar(boleto);
             }
             
             FacesUtil.exibirMensagemSucesso("Sucesso", "Boletos salvos com sucesso!");

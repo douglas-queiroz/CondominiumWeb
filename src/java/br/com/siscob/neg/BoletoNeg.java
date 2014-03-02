@@ -8,8 +8,9 @@ package br.com.siscob.neg;
 
 import br.com.siscob.dao.BoletoDAO;
 import br.com.siscob.model.Boleto;
-import br.com.tronic.exception.ValidacaoException;
-import java.util.ArrayList;
+import br.com.siscob.model.Usuario;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,24 +22,27 @@ public class BoletoNeg extends GenericNeg<Boleto>{
     public BoletoNeg() {
         super(new BoletoDAO());
     }
+    
+    public List<Boleto> consultar(Usuario usuario){
+        return ((BoletoDAO) super.obterDAO()).consultar(usuario);
+    }
 
     @Override
     public void salvar(Boleto objeto) throws Exception {
-        validarBoleto(objeto);
-        
+        this.gerarNossoNumero(objeto);
         super.salvar(objeto);
     }
 
-    private void validarBoleto(Boleto objeto) throws ValidacaoException {
-        List<String> msgs = new ArrayList<String>();
+    private void gerarNossoNumero(Boleto objeto) {
+        Date hoje  = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyHHmm");
+        String nossoNumero = sdf.format(hoje);
         
-        if(objeto.getNossoNumero().equals(""))
-            msgs.add("O nosso número do boleto do cliente "+ objeto.getUsuario().getNome() +" deve ser preenchido");
+        Integer idUsuario = objeto.getUsuario().getId();
+        nossoNumero += (idUsuario.toString().length() < 2)? 
+                "0"+idUsuario : 
+                idUsuario.toString().substring(idUsuario.toString().length() - 2, idUsuario.toString().length());
         
-        if(objeto.getDigitoNossoNumero().equals(""))
-            msgs.add("O dígito do nosso número do boleto do cliente "+ objeto.getUsuario().getNome() +" deve ser preenchido");
-        
-        if(!msgs.isEmpty())
-            throw new ValidacaoException(msgs);
+        objeto.setNossoNumero(nossoNumero);
     }
 }

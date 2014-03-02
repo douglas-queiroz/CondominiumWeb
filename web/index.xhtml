@@ -1,29 +1,56 @@
 <ui:composition template="/template/template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-	<ui:define name="conteudo">	
-		<p:dialog rendered="#{param.negado}" resizable="false"
-			header="Acesso negado" closable="false" visible="true">
-			<img style="padding-left: 20px;"
-				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
-			<div style="text-align: center; font-size: 20px;">Acesso
-				negado!</div>
-		</p:dialog>
-		<p:dialog rendered="#{param.notfound}" width="295" resizable="false"
-			header="Acesso negado" visible="true">
-			<img style="padding-left: 20px;"
-				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
-			<div style="text-align: center; font-size: 20px;">Pagina não
-				existe!</div>
-		</p:dialog>
-		<p:dialog rendered="#{param.erro}" width="295" resizable="false"
-			header="Acesso negado" visible="true">
-			<img style="padding-left: 20px;"
-				src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
-			<div style="text-align: center; font-size: 20px;">Erro!</div>
-		</p:dialog>
-	</ui:define>
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="conteudo">	
+        <h:form id="formTabela">
+            <p:dataTable id="dtTabela" var="boleto" value="#{dashBoardBean.boletos}" 
+                         emptyMessage="Nenhum Boleto" rowKey="#{boleto.id}" 
+                         selectionMode="single" selection="#{dashBoardBean.boleto}" 
+                         paginatorPosition="bottom" paginator="#{dashBoardBean.boletos.size() > 10}" 
+                         rows="10" style="height:450px">
+                <p:ajax update=":formTabela:dtTabela" event="rowSelect"/>
+
+                <f:facet name="header" > 
+                    <div style="text-align:left">
+                        <h:commandLink value="Download"
+                                       action="#{dashBoardBean.download}" />
+                    </div>
+                </f:facet>
+
+                <p:column headerText="Nome" style="width:30%">  
+                    <h:outputText value="#{boleto}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:blockUI block="dtTabela" trigger="dtTabela" widgetVar="bui">  
+                <img src="#{facesContext.externalContext.requestContextPath}/resources/imagens/Loading.gif" />
+            </p:blockUI>
+        </h:form> 
+
+
+
+        <p:dialog rendered="#{param.negado}" resizable="false"
+                  header="Acesso negado" closable="false" visible="true">
+            <img style="padding-left: 20px;"
+                 src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+            <div style="text-align: center; font-size: 20px;">Acesso
+                negado!</div>
+        </p:dialog>
+        <p:dialog rendered="#{param.notfound}" width="295" resizable="false"
+                  header="Acesso negado" visible="true">
+            <img style="padding-left: 20px;"
+                 src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+            <div style="text-align: center; font-size: 20px;">Pagina não
+                existe!</div>
+        </p:dialog>
+        <p:dialog rendered="#{param.erro}" width="295" resizable="false"
+                  header="Acesso negado" visible="true">
+            <img style="padding-left: 20px;"
+                 src="#{facesContext.externalContext.requestContextPath}/resources/imagens/acesso_negado.png" />
+            <div style="text-align: center; font-size: 20px;">Erro!</div>
+        </p:dialog>
+    </ui:define>
 </ui:composition>

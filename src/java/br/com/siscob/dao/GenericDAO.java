@@ -83,15 +83,6 @@ public abstract class GenericDAO<T> {
         return em.find(entityClass, entityID);
     }
 
-    public List<T> consultar(Usuario usuario) {
-        EntityManager em = FabricaConexao.obterManager();
-        return ((Session) em.getDelegate())
-                .createCriteria(entityClass)
-                .add(Restrictions.eq("usuario", usuario))
-                .addOrder(Order.asc("descricao"))
-                .list();
-    }
-
     public List<T> consultar(Usuario usuario, String ordenarPor) {
         EntityManager em = FabricaConexao.obterManager();
         return ((Session) em.getDelegate())
