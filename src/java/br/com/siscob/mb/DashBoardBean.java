@@ -69,15 +69,15 @@ public class DashBoardBean
         contaBancaria.setAgencia(agencia);
         Titulo tituloBopepo = new Titulo(contaBancaria, sacado, cedente);
         tituloBopepo.setNossoNumero(boleto.getNossoNumero());
-        tituloBopepo.setValor(new BigDecimal(boleto.getValor()));
+        tituloBopepo.setValor(BigDecimal.valueOf(boleto.getValor()));
         tituloBopepo.setDataDoDocumento(boleto.getDataDocumento());
         tituloBopepo.setDataDoVencimento(boleto.getDataVencimento());
         tituloBopepo.setTipoDeDocumento(boleto.getTipoTitulo());
         tituloBopepo.setAceite(boleto.getAceite());
-        tituloBopepo.setDesconto(new BigDecimal(boleto.getDesconto()));
-        tituloBopepo.setDeducao(new BigDecimal(boleto.getDeducao()));
-        tituloBopepo.setMora(new BigDecimal(boleto.getMora()));
-        tituloBopepo.setAcrecimo(new BigDecimal(boleto.getAcrescimo()));
+        tituloBopepo.setDesconto(BigDecimal.valueOf(boleto.getDesconto()));
+        tituloBopepo.setDeducao(BigDecimal.valueOf(boleto.getDeducao()));
+        tituloBopepo.setMora(BigDecimal.valueOf(boleto.getMora()));
+        tituloBopepo.setAcrecimo(BigDecimal.valueOf(boleto.getAcrescimo()));
         tituloBopepo.setValorCobrado(BigDecimal.valueOf(boleto.getValorCobrado()));
         if (boleto.getContaId().getBanco() == BancosSuportados.CAIXA_ECONOMICA_FEDERAL) {
             tituloBopepo.setParametrosBancarios(new ParametrosBancariosMap("CodigoOperacao", boleto.getContaId().getCodigoOperacao()));
