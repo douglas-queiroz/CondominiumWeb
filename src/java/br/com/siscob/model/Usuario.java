@@ -7,6 +7,7 @@
 package br.com.siscob.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -63,6 +65,9 @@ public class Usuario extends AbstractEntity implements Serializable {
     private Condominio condominio;
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Boleto> boletos;
+    @Column(name = "ultimo_acesso")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date ultimoAcesso;
 
     public Usuario() {
     }
@@ -126,6 +131,14 @@ public class Usuario extends AbstractEntity implements Serializable {
 
     public void setBoletos(List<Boleto> boletos) {
         this.boletos = boletos;
+    }
+
+    public Date getUltimoAcesso() {
+        return ultimoAcesso;
+    }
+
+    public void setUltimoAcesso(Date ultimoAcesso) {
+        this.ultimoAcesso = ultimoAcesso;
     }
 
     @Override

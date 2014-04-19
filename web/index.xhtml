@@ -10,7 +10,7 @@
                          emptyMessage="Nenhum Boleto" rowKey="#{boleto.id}" 
                          selectionMode="single" selection="#{dashBoardBean.boleto}" 
                          paginatorPosition="bottom" paginator="#{dashBoardBean.boletos.size() > 10}" 
-                         rows="10" style="height:450px">
+                         rows="10" style="height:450px" rendered="#{sessionBean.usuario.permissao == 'ROLE_USER'}">
                 <p:ajax update=":formTabela:dtTabela" event="rowSelect"/>
 
                 <f:facet name="header" > 
@@ -20,8 +20,39 @@
                     </div>
                 </f:facet>
 
-                <p:column headerText="Nome" style="width:30%">  
-                    <h:outputText value="#{boleto}" />
+                <p:column headerText="Número do documento" style="width:30%">  
+                    <h:outputText value="#{boleto.nossoNumero}" />
+                </p:column>
+
+                <p:column headerText="Data vencimento" style="width:30%">  
+                    <h:outputText value="#{boleto.dataVencimento}">
+                        <f:convertDateTime locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Valor" style="width:30%">  
+                    <h:outputText value="#{boleto.valor}">
+                        <f:convertNumber type="currency" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+
+            <h:outputLabel value="Ultimos acessos" style="font-size: 30px;" rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}"/>
+            <p:dataTable id="dtUltimosAcessos" var="usuario" value="#{dashBoardBean.ultimosAcessos}"
+                         emptyMessage="Não tem nenhum acesso" rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}">
+                <p:column headerText="Usuario" style="width:30%">  
+                    <h:outputText value="#{usuario.nome}" />
+                </p:column>
+
+                <p:column headerText="CPF" style="width:30%">  
+                    <h:outputText value="#{usuario.cpf}" />
+                </p:column>
+
+                <p:column headerText="Ultimo acesso" style="width:30%">  
+                    <h:outputText value="#{usuario.ultimoAcesso}" >
+                        <f:convertDateTime locale="pt_BR" />
+                    </h:outputText>
                 </p:column>
             </p:dataTable>
 

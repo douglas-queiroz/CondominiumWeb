@@ -38,24 +38,32 @@
                             <div class="nav-collapse collapse navbar-responsive-collapse">
                                 <ul class="nav">
                                     <li class="dropdown">
-                                        <a href="#{facesContext.externalContext.requestContextPath}/modulos/manterboleto/">
+                                        <h:outputLink
+                                            rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}"
+                                            value="#{facesContext.externalContext.requestContextPath}/modulos/manterboleto/">
                                             Boleto
-                                        </a>
+                                        </h:outputLink>
                                     </li>
                                     <li class="dropdown">
-                                        <a href="#{facesContext.externalContext.requestContextPath}/modulos/mantercondominio/">
+                                        <h:outputLink
+                                            rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}"
+                                            value="#{facesContext.externalContext.requestContextPath}/modulos/mantercondominio">
                                             Condomínio
-                                        </a>
+                                        </h:outputLink>
                                     </li>
-                                    <li class="dropdown">
-                                        <a href="#{facesContext.externalContext.requestContextPath}/modulos/manterusuario/">
+                                    <li>
+                                        <h:outputLink
+                                            rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}"
+                                            value="#{facesContext.externalContext.requestContextPath}/modulos/manterusuario/">
                                             Condômino
-                                        </a>
+                                        </h:outputLink>
                                     </li>
                                     <li class="dropdown">
-                                        <a href="#{facesContext.externalContext.requestContextPath}/modulos/manterconta/">
-                                            Contas 
-                                        </a>
+                                        <h:outputLink
+                                            rendered="#{sessionBean.usuario.permissao == 'ROLE_ADM'}"
+                                            value="#{facesContext.externalContext.requestContextPath}/modulos/manterconta/">
+                                            Conta
+                                        </h:outputLink>
                                     </li>
                                 </ul>
 

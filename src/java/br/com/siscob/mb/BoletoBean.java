@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.primefaces.context.RequestContext;
@@ -30,7 +30,7 @@ import org.primefaces.context.RequestContext;
  * @author Douglas
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class BoletoBean extends GenericBean<Boleto> implements Serializable {
 
     private static final long serialVersionUID = 3710391879720577473L;
@@ -38,47 +38,48 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
     private List<Boleto> boletosGerados = new ArrayList<Boleto>();
     private List<Conta> contas;
     private List<Condominio> condominios;
-    private final CondominioNeg condominioNeg = new CondominioNeg(); 
+    private final CondominioNeg condominioNeg = new CondominioNeg();
     private final ContaNeg contaNeg = new ContaNeg();
 
     public BoletoBean() {
         super(new BoletoNeg());
     }
-    
+
     private void validarBoleto(Boleto objeto) throws ValidacaoException {
         List<String> msg = new ArrayList<String>();
 
-        if(objeto.getDataDocumento() == null){
+        if (objeto.getDataDocumento() == null) {
             msg.add("O campo data documento deve ser preenchido!");
         }
 
-        if(objeto.getDataVencimento()== null){
+        if (objeto.getDataVencimento() == null) {
             msg.add("O campo data vencimento deve ser preenchido!");
         }
 
-        if(objeto.getValor() <= 0){
+        if (objeto.getValor() <= 0) {
             msg.add("O campo valor deve ser maior que zero!");
         }
 
-        if(!msg.isEmpty())
+        if (!msg.isEmpty()) {
             throw new ValidacaoException(msg);
+        }
     }
 
     public void gerarBoletos() {
         RequestContext context = RequestContext.getCurrentInstance();
         boletosGerados.clear();
         try {
-           validarBoleto(super.getObjeto()) ;
-            
+            validarBoleto(super.getObjeto());
+
             for (Usuario usuario : super.getObjeto().getCondominioId().getUsuarioList()) {
                 Boleto boleto = super.getObjeto().clone();
                 boleto.setUsuario(usuario);
-                
+
                 boletosGerados.add(boleto);
             }
-            
+
             this.salvar();
-            
+
             context.addCallbackParam("valido", true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(BoletoBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +88,7 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
             for (String mensagem : ex.getMensagens()) {
                 FacesUtil.exibirMensagemAlerta("Atenção", mensagem);
             }
-            
+
             context.addCallbackParam("valido", false);
             Logger.getLogger(BoletoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,8 +103,9 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
     }
 
     public List<Condominio> getCondominios() {
-        if (condominios == null)
+        if (condominios == null) {
             condominios = condominioNeg.consultar();
+        }
 
         return condominios;
     }
@@ -113,9 +115,10 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
     }
 
     public List<Conta> getContas() {
-        if(contas == null)
+        if (contas == null) {
             contas = contaNeg.consultar();
-        
+        }
+
         return contas;
     }
 
@@ -151,6 +154,8 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
                 ((BoletoNeg) this.obterNeg()).salvar(boleto);
             }
             
+            super.setListaObjetos(this.carregarLista());
+            
             FacesUtil.exibirMensagemSucesso("Sucesso", "Boletos salvos com sucesso!");
             context.addCallbackParam("valido", true);
         } catch (ValidacaoException e) {
@@ -166,4 +171,15 @@ public class BoletoBean extends GenericBean<Boleto> implements Serializable {
             Logger.getLogger(BoletoBean.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
+    public void baixarBoleto() {
+        try {
+            ((BoletoNeg) super.obterNeg()).baixarBoleto((Boleto) super.getObjeto());
+            FacesUtil.exibirMensagemSucesso("Sucesso", "Boleto baixado com sucesso!");
+        } catch (Exception e) {
+            Logger.getLogger(Boleto.class.getName()).log(Level.SEVERE, null, e);
+            FacesUtil.exibirMensagemErro("Erro", "Ocorreu um erro ao baixar o boleto!");
+        }
+    }
+
 }

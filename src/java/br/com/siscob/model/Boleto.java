@@ -33,7 +33,6 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 @NamedQueries({
     @NamedQuery(name = "Boleto.findAll", query = "SELECT b FROM Boleto b"),
     @NamedQuery(name = "Boleto.findById", query = "SELECT b FROM Boleto b WHERE b.id = :id"),
-    @NamedQuery(name = "Boleto.findByCodigoOperacao", query = "SELECT b FROM Boleto b WHERE b.codigoOperacao = :codigoOperacao"),
     @NamedQuery(name = "Boleto.findByNumeroDocumento", query = "SELECT b FROM Boleto b WHERE b.numeroDocumento = :numeroDocumento"),
     @NamedQuery(name = "Boleto.findByNossoNumero", query = "SELECT b FROM Boleto b WHERE b.nossoNumero = :nossoNumero"),
     @NamedQuery(name = "Boleto.findByDigitoNossoNumero", query = "SELECT b FROM Boleto b WHERE b.digitoNossoNumero = :digitoNossoNumero"),
@@ -52,8 +51,6 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 public class Boleto extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = -7327740356689539576L;
         
-    @Column(name = "codigo_operacao", nullable = false)
-    private int codigoOperacao;
     @Basic(optional = false)
     @Column(name = "numero_documento", nullable = false, length = 200)
     private String numeroDocumento = "";
@@ -104,23 +101,23 @@ public class Boleto extends AbstractEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Condominio condominioId;
     @JoinColumn(name = "conta_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Conta contaId;
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuario;
+    private StatusBoleto status = StatusBoleto.Aberto;
 
     public Boleto() {
     }
 
-    public Boleto(Integer id, int codigoOperacao, String numeroDocumento, 
+    public Boleto(Integer id, String numeroDocumento, 
             String nossoNumero, String digitoNossoNumero, double valor, 
             Date dataDocumento, Date dataVencimento, TipoDeTitulo tipoTitulo, 
             Aceite aceite, double desconto, double deducao, double mora, 
             double acrescimo, double valorCobrado) {
         
         super.id = id;
-        this.codigoOperacao = codigoOperacao;
         this.numeroDocumento = numeroDocumento;
         this.nossoNumero = nossoNumero;
         this.digitoNossoNumero = digitoNossoNumero;
@@ -134,14 +131,6 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.mora = mora;
         this.acrescimo = acrescimo;
         this.valorCobrado = valorCobrado;
-    }
-
-    public int getCodigoOperacao() {
-        return codigoOperacao;
-    }
-
-    public void setCodigoOperacao(int codigoOperacao) {
-        this.codigoOperacao = codigoOperacao;
     }
 
     public String getNumeroDocumento() {
@@ -289,6 +278,14 @@ public class Boleto extends AbstractEntity implements Serializable {
         this.usuario = usuario;
     }
 
+    public StatusBoleto getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusBoleto status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "br.com.siscob.model.Boleto[ id=" + id + " ]";
@@ -299,7 +296,6 @@ public class Boleto extends AbstractEntity implements Serializable {
         Boleto boleto = new Boleto();
         boleto.setAceite(this.aceite);
         boleto.setAcrescimo(this.acrescimo);
-        boleto.setCodigoOperacao(this.codigoOperacao);
         boleto.setCondominioId(this.condominioId);
         boleto.setContaId(this.contaId);
         boleto.setDataDocumento(this.dataDocumento);

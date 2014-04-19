@@ -7,10 +7,16 @@ package br.com.siscob.dao;
 
 import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
+import br.com.siscob.util.FabricaConexao;
 import java.io.Serializable;
+import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Classe DAO de usuario
@@ -18,7 +24,9 @@ import java.util.Map;
  * @author Douglas Queiroz
  */
 public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
+
     private static final long serialVersionUID = -278035410354030361L;
+
     /**
      * Contrutor
      */
@@ -43,7 +51,7 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
     public List<Usuario> consultar(String filtroDefault) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("filtroDefault", "%" + filtroDefault + "%");
-        
+
         return super.findResultList("Usuario.findByFiltroDefault", param);
     }
 
@@ -57,5 +65,14 @@ public class UsuarioDAO extends GenericDAO<Usuario> implements Serializable {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("cpf", login);
         return super.findOneResult("Usuario.findByCpf", param);
+    }
+
+    public List<Usuario> consultarUltimosAcessos() {
+        EntityManager em = FabricaConexao.obterManager();
+        return ((Session) em.getDelegate())
+                .createCriteria(Usuario.class)
+                .add(Restrictions.isNotNull("ultimoAcesso"))
+                .addOrder(Order.desc("ultimoAcesso"))
+                .setMaxResults(20).list();
     }
 }

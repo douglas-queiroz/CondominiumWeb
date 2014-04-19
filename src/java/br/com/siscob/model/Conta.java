@@ -58,8 +58,10 @@ public class Conta extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "carteira", nullable = false)
     private int carteira;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contaId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contaId", fetch = FetchType.LAZY)
     private List<Boleto> boletoList;
+    @Column(name = "codigo_operacao")
+    private String codigoOperacao;
 
     public Conta() {
     }
@@ -141,6 +143,14 @@ public class Conta extends AbstractEntity implements Serializable {
 
     public void setBoletoList(List<Boleto> boletoList) {
         this.boletoList = boletoList;
+    }
+
+    public String getCodigoOperacao() {
+        return codigoOperacao;
+    }
+
+    public void setCodigoOperacao(String codigoOperacao) {
+        this.codigoOperacao = codigoOperacao;
     }
 
     @Override

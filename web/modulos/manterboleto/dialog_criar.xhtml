@@ -29,11 +29,6 @@
                     </p:selectOneMenu>
 
                     <h:panelGrid columns="2" >
-                        <util:campoNumero id="cod_operacao" label="Cód. operação" 
-                                          value="#{boletoBean.objeto.codigoOperacao}" title=""
-                                          style="margin: 0px 0px 5px 0px;"
-                                          styleLabel="margin: 7px 0px 5px 0px;"/>
-
                         <util:campoDinheiro label="Valor" id="rec_mes_fatura"
                                             title="" value="#{boletoBean.objeto.valor}"
                                             style="margin: 0px 20px 5px 5px;"
@@ -77,7 +72,7 @@
                                  style="float: right; margin: 10px 0px 0px 0px;">
                         <p:commandButton
                             update=":formTabela:dtTabela, :formMsg:msg, :formCadastro:pgInformacao :formBoletosGerados"
-                            oncomplete="boletoValido(xhr, status, args)"
+                            oncomplete="ehValido(xhr, status, args)"
                             actionListener="#{boletoBean.gerarBoletos()}" value="Gerar"
                             icon="ui-icon-check" />
                         <p:commandButton value="Cancelar" oncomplete="cadastroDlg.hide();"

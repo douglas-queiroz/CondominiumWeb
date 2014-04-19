@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.siscob.neg;
 
 import br.com.siscob.dao.UsuarioDAO;
@@ -20,54 +19,65 @@ import java.util.List;
  *
  * @author Douglas Queiroz
  */
-public class UsuarioNeg extends GenericNeg<Usuario> implements Serializable{
+public class UsuarioNeg extends GenericNeg<Usuario> implements Serializable {
+
     private static final long serialVersionUID = -6111899387890527860L;
 
     public UsuarioNeg() {
         super(new UsuarioDAO());
-    }    
+    }
 
     @Override
     public void salvar(Usuario objeto) throws Exception {
         this.validar(objeto);
-        
-        if(objeto.getId() == 0)
+
+        if (objeto.getId() == 0) {
             objeto.setPermissao("ROLE_USER");
-        
+        }
+
         objeto.setSenha(Util.criptografar(objeto.getSenha()));
-        
+
         super.salvar(objeto);
     }
-    
-    public List<Usuario> consultar(String nome, String cpf, Condominio condominio){
+
+    public List<Usuario> consultar(String nome, String cpf, Condominio condominio) {
         return ((UsuarioDAO) super.obterDAO()).consultar(nome, cpf, condominio);
     }
-    
-    public List<Usuario> consultar(String filtroDefault){
+
+    public List<Usuario> consultar(String filtroDefault) {
         return ((UsuarioDAO) super.obterDAO()).consultar(filtroDefault);
     }
-    
-    public Usuario obter(String login){
+
+    public Usuario obter(String login) {
         return ((UsuarioDAO) super.obterDAO()).obter(login);
     }
 
-    private void validar(Usuario objeto) throws ValidacaoException{
+    private void validar(Usuario objeto) throws ValidacaoException {
         List<String> msgs = new ArrayList<String>();
-        
-        if(!Util.validaCPF(objeto.getCpf()))
+
+        if (!Util.validaCPF(objeto.getCpf())) {
             msgs.add("CPF Inválido!");
-        
-        if(objeto.getNome().equals(""))
+        }
+
+        if (objeto.getNome().equals("")) {
             msgs.add("O campo nome é obrigatório!");
-        
-        if(objeto.getSenha().equals(""))
+        }
+
+        if (objeto.getSenha().equals("")) {
             msgs.add("O campo senha é obrigatório!");
-        
+        }
+
         Usuario usuario = this.obter(objeto.getCpf());
-        if(usuario != null && usuario.getId() != objeto.getId())
+        if (usuario != null && usuario.getId() != objeto.getId()) {
             msgs.add("Este usuário já está cadastrado!");
-        
-        if(!msgs.isEmpty())
+        }
+
+        if (!msgs.isEmpty()) {
             throw new ValidacaoException(msgs);
+        }
+    }
+
+    public List consultarUltimosAcessos() {
+        return ((UsuarioDAO) super.obterDAO()).consultarUltimosAcessos();
     }
 }

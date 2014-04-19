@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.siscob.mb;
 
-import br.com.siscob.model.Boleto;
 import br.com.siscob.model.Condominio;
 import br.com.siscob.model.Usuario;
 import br.com.siscob.neg.BoletoNeg;
+import br.com.siscob.neg.UsuarioNeg;
 import br.com.siscob.util.FacesUtil;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -21,9 +15,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import org.jrimum.bopepo.BancosSuportados;
+import org.jrimum.bopepo.Boleto;
 import org.jrimum.bopepo.view.BoletoViewer;
 import org.jrimum.domkee.comum.pessoa.endereco.CEP;
 import org.jrimum.domkee.comum.pessoa.endereco.Endereco;
+import org.jrimum.domkee.financeiro.banco.ParametrosBancariosMap;
 import org.jrimum.domkee.financeiro.banco.febraban.Agencia;
 import org.jrimum.domkee.financeiro.banco.febraban.Carteira;
 import org.jrimum.domkee.financeiro.banco.febraban.Cedente;
@@ -32,35 +29,25 @@ import org.jrimum.domkee.financeiro.banco.febraban.NumeroDaConta;
 import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 
-/**
- *
- * @author Douglas
- */
 @ManagedBean
 @ViewScoped
-public class DashBoardBean implements Serializable {
-
-    private static final long serialVersionUID = 8308275613511523141L;
-    private final BoletoNeg boletoNeg = new BoletoNeg();
-    private List<Boleto> boletos = new ArrayList<Boleto>();
-    private Boleto boleto;
-    private Usuario usuario;
+public class DashBoardBean
+        implements Serializable {
 
     public DashBoardBean() {
+        boletos = new ArrayList();
         usuario = FacesUtil.obterUsuarioSessao();
         if (usuario.getPermissao().equals("ROLE_USER")) {
             boletos = boletoNeg.consultar(usuario);
+        } else {
+            ultimosAcessos = usuarioNeg.consultarUltimosAcessos();
         }
     }
 
     public BoletoViewer gerarBoleto() {
         Condominio condominio = usuario.getCondominio();
-
         Cedente cedente = new Cedente(condominio.getNome(), condominio.getCnpj());
-
         Sacado sacado = new Sacado(usuario.getNome(), usuario.getCpf());
-
-        // Informando o endereço do sacado.
         Endereco enderecoSac = new Endereco();
         enderecoSac.setUF(condominio.getEndereco().getUf());
         enderecoSac.setLocalidade(condominio.getEndereco().getCidade());
@@ -69,14 +56,18 @@ public class DashBoardBean implements Serializable {
         enderecoSac.setLogradouro(condominio.getEndereco().getLogradouro());
         enderecoSac.setNumero(condominio.getEndereco().getNumero());
         sacado.addEndereco(enderecoSac);
-
         ContaBancaria contaBancaria = new ContaBancaria(boleto.getContaId().getBanco().create());
-        contaBancaria.setNumeroDaConta(new NumeroDaConta(boleto.getContaId().getConta(), boleto.getContaId().getDigitoCc()));
-        contaBancaria.setCarteira(new Carteira(boleto.getContaId().getCarteira()));
-        contaBancaria.setAgencia(new Agencia(boleto.getContaId().getAgencia(), boleto.getContaId().getDigitoAg()));
-
-        Titulo tituloBopepo = new org.jrimum.domkee.financeiro.banco.febraban.Titulo(
-                contaBancaria, sacado, cedente);
+        contaBancaria.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(boleto.getContaId().getConta()), boleto.getContaId().getDigitoCc()));
+        contaBancaria.setCarteira(new Carteira(Integer.valueOf(boleto.getContaId().getCarteira())));
+        
+        Agencia agencia;
+        if(boleto.getContaId().getDigitoAg().isEmpty()){
+            agencia = new Agencia(Integer.valueOf(boleto.getContaId().getAgencia()));
+        }else{
+            agencia = new Agencia(boleto.getContaId().getAgencia(), boleto.getContaId().getDigitoAg());
+        }
+        contaBancaria.setAgencia(agencia);
+        Titulo tituloBopepo = new Titulo(contaBancaria, sacado, cedente);
         tituloBopepo.setNossoNumero(boleto.getNossoNumero());
         tituloBopepo.setValor(new BigDecimal(boleto.getValor()));
         tituloBopepo.setDataDoDocumento(boleto.getDataDocumento());
@@ -88,65 +79,69 @@ public class DashBoardBean implements Serializable {
         tituloBopepo.setMora(new BigDecimal(boleto.getMora()));
         tituloBopepo.setAcrecimo(new BigDecimal(boleto.getAcrescimo()));
         tituloBopepo.setValorCobrado(new BigDecimal(boleto.getValorCobrado()));
-
-        org.jrimum.bopepo.Boleto boletoBopero = new org.jrimum.bopepo.Boleto(tituloBopepo);
-        boletoBopero.setLocalPagamento("PREFERENCIALMENTE NAS CASAS LOTÉRICAS ATÉ O VALOR LIMITE");
-        boletoBopero.setInstrucaoAoSacado("");
-
-        boletoBopero.setInstrucao1("DESCONTO DE R$	100,00 ATE: 10/06/2013");
-        boletoBopero.setInstrucao2("MULTA    DE R$	  8,86 APOS: 10/06/2013");
-        boletoBopero.setInstrucao3("JUROS    DE R$	  0,13 AO DIA");
-        boletoBopero.setInstrucao4("NÃO RECEBER APOS 30 DIAS DO VENCIMENTO");
-        boletoBopero.setInstrucao5("TAXA CONDOMINIAL JUNHO-13 R$ 380,00");
-        boletoBopero.setInstrucao6("RAT CONT DE AUTOMACAO PAR 2-3 R$ 23,00");
-        boletoBopero.addTextosExtras("txtRsServico", "Serviço personalizado!!! \t teste \n"
-                + "Testando o pulo do gato!!!sssssssssssssssssssssssssssssss");
-
+        if (boleto.getContaId().getBanco() == BancosSuportados.CAIXA_ECONOMICA_FEDERAL) {
+            tituloBopepo.setParametrosBancarios(new ParametrosBancariosMap("CodigoOperacao", boleto.getContaId().getCodigoOperacao()));
+        }
+        Boleto boletoBopero = new Boleto(tituloBopepo);
+        boletoBopero.setLocalPagamento(boleto.getLocalPagamento());
+        boletoBopero.setInstrucaoAoSacado(boleto.getInstrucaoPagamento());
         return new BoletoViewer(boletoBopero);
     }
 
     public String download() {
+        if (boleto == null) {
+            FacesUtil.exibirMensagemAlerta("Atenção", "Selecione um boleto!");
+            return null;
+        }
+        
         try {
             BoletoViewer boletoViewer = gerarBoleto();
-
-            byte[] pdfAsBytes = boletoViewer.getPdfAsByteArray();
-
-            HttpServletResponse response = (HttpServletResponse) FacesContext
-                    .getCurrentInstance().getExternalContext().getResponse();
-
+            byte pdfAsBytes[] = boletoViewer.getPdfAsByteArray();
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=boleto.pdf");
-
+            response.setHeader("Content-Disposition", "attachment; filename=boleto.pdf");
             OutputStream output = response.getOutputStream();
             output.write(pdfAsBytes);
             response.flushBuffer();
-
             FacesContext.getCurrentInstance().responseComplete();
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
             FacesUtil.exibirMensagemErro("Erro", ex.getMessage());
         }
-
         return null;
     }
 
-    public List<Boleto> getBoletos() {
+    public List getBoletos() {
         return boletos;
     }
 
-    public void setBoletos(List<Boleto> boletos) {
+    public void setBoletos(List boletos) {
         this.boletos = boletos;
     }
 
-    public Boleto getBoleto() {
+    public br.com.siscob.model.Boleto getBoleto() {
         return boleto;
     }
 
-    public void setBoleto(Boleto boleto) {
+    public void setBoleto(br.com.siscob.model.Boleto boleto) {
         this.boleto = boleto;
     }
+
+    public List getUltimosAcessos() {
+        return ultimosAcessos;
+    }
+
+    public void setUltimosAcessos(List ultimosAcessos) {
+        this.ultimosAcessos = ultimosAcessos;
+    }
+
+    private static final long serialVersionUID = 0x734ceca6bf651b45L;
+    private final BoletoNeg boletoNeg = new BoletoNeg();
+    private final UsuarioNeg usuarioNeg = new UsuarioNeg();
+    private List boletos;
+    private br.com.siscob.model.Boleto boleto;
+    private Usuario usuario;
+    private List ultimosAcessos;
 }

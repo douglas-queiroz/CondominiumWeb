@@ -18,8 +18,6 @@
                 <p:ajax update=":formTabela:dtTabela" event="rowSelect"/>
 
                 <f:facet name="header" > 
-<!--                    <util:pesquisaGrid value="#{usuarioBean.filtroSimples}"
-                                       actionListener="#{usuarioBean.filtrarSimplificado()}" />-->
 
                     <div style="text-align:left">
                         <p:commandButton actionListener="#{boletoBean.prepararAdicionar()}" 
@@ -27,28 +25,46 @@
                                          oncomplete="cadastroDlg.show()" 
                                          value="Novo" icon="ui-icon-plus"/>  
                         <p:commandButton disabled="#{boletoBean.objeto == null || boletoBean.objeto.id == 0
-                                                     || boletoBean.objeto.id == 1}"
-                                         icon="ui-icon-pencil" title="Editar" value="Editar"
-                                         update=":formCadastro:pgInformacao"
-                                         oncomplete="cadastroDlg.show()"/>
-<!--                        <p:commandButton disabled="#{boletoBean.objeto == null ||boletoBean.objeto.id == 0
-                                                     || boletoBean.objeto.id == 1}"
+                                                     || boletoBean.objeto.id == 1 || boletoBean.objeto.status == 'Baixado'}"
+                                         icon="ui-icon-pencil" title="Baixar titulo" value="Baixar titulo"
+                                         update=":formTabela:dtTabela"
+                                         action="#{boletoBean.baixarBoleto()}"/>
+                        <p:commandButton disabled="#{boletoBean.objeto == null || boletoBean.objeto.id == 0
+                                                     || boletoBean.objeto.id == 1 }"
                                          icon="ui-icon-trash" title="Excluir" value="Excluir"
                                          update=":formExcluir:confirmDlg" 
-                                         oncomplete="confirmacaoDlg.show()"/>-->
+                                         oncomplete="confirmacaoDlg.show()"/>
                     </div>
                 </f:facet>
-                <p:column headerText="Nome" style="width:30%">  
-                    <h:outputText value="#{boleto}" />
+                <p:column headerText="Nosso Número" style="width:30%">  
+                    <h:outputText value="#{boleto.nossoNumero}" />
                 </p:column>
-
-<!--                <p:column headerText="CPF" style="width:10%"> 
-                    <h:outputText value="#{usuario.cpf}" />  
+                
+                <p:column headerText="CPF" style="width:30%">  
+                    <h:outputText value="#{boleto.usuario.cpf}" />
                 </p:column>
-
-                <p:column headerText="Condomínio" style="width:10%">  
-                    <h:outputText value="#{usuario.condominio.nome}" />  
-                </p:column>-->
+                
+                <p:column headerText="Data" style="width:30%">  
+                    <h:outputText value="#{boleto.dataDocumento}">
+                        <f:convertDateTime locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Vencimento" style="width:30%">  
+                    <h:outputText value="#{boleto.dataVencimento}" >
+                        <f:convertDateTime locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Valor" style="width:30%">  
+                    <h:outputText value="#{boleto.valor}">
+                        <f:convertNumber type="currency" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Status" style="width:30%">  
+                    <h:outputText value="#{boleto.status}" />
+                </p:column>
             </p:dataTable>
 
             <p:blockUI block="dtTabela" trigger="dtTabela" widgetVar="bui">  
@@ -58,7 +74,7 @@
 
         <ui:include src="dialog_criar.xhtml" />
         <ui:include src="dialog_boletos_gerados.xhtml" />
-<!--        <ui:include src="dialog_deletar.xhtml" />
-        <ui:include src="dialog_pesquisar.xhtml" />-->
+        <ui:include src="dialog_deletar.xhtml" />
+        <!--<ui:include src="dialog_pesquisar.xhtml" />-->
     </ui:define>
 </ui:composition>

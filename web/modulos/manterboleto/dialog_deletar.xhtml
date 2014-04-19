@@ -8,7 +8,7 @@
 <h:body>
 	<h:form id="formExcluir">
 		<p:confirmDialog id="confirmDlg"
-			message="Você deseja Excluir o usuário #{usuarioBean.objeto.nome}?"
+			message="Você deseja excluir o boleto #{boletoBean.objeto.nossoNumero}?"
 			header="Confirma a exclusão" severity="alert"
 			widgetVar="confirmacaoDlg">
 
@@ -16,7 +16,7 @@
 				<p:commandButton id="sim" value="Sim"
 					update=":formTabela:dtTabela, :formMsg:msg"
 					oncomplete="confirmacaoDlg.hide()"
-					actionListener="#{usuarioBean.deletar()}" />
+                                        actionListener="#{boletoBean.deletar()}" />
 				<p:commandButton id="nao" value="Não"
 					onclick="confirmacaoDlg.hide()" type="button" />
 			</h:panelGrid>
