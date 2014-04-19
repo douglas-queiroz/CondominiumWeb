@@ -78,13 +78,13 @@ public class DashBoardBean
         tituloBopepo.setDeducao(new BigDecimal(boleto.getDeducao()));
         tituloBopepo.setMora(new BigDecimal(boleto.getMora()));
         tituloBopepo.setAcrecimo(new BigDecimal(boleto.getAcrescimo()));
-        tituloBopepo.setValorCobrado(new BigDecimal(boleto.getValorCobrado()));
+        tituloBopepo.setValorCobrado(BigDecimal.valueOf(boleto.getValorCobrado()));
         if (boleto.getContaId().getBanco() == BancosSuportados.CAIXA_ECONOMICA_FEDERAL) {
             tituloBopepo.setParametrosBancarios(new ParametrosBancariosMap("CodigoOperacao", boleto.getContaId().getCodigoOperacao()));
         }
         Boleto boletoBopero = new Boleto(tituloBopepo);
         boletoBopero.setLocalPagamento(boleto.getLocalPagamento());
-        boletoBopero.setInstrucaoAoSacado(boleto.getInstrucaoPagamento());
+        boletoBopero.setInstrucao1(boleto.getInstrucaoPagamento());
         return new BoletoViewer(boletoBopero);
     }
 
