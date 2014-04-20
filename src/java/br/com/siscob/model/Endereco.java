@@ -26,7 +26,7 @@ import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
  * @author Douglas
  */
 @Entity
-@Table(name = "endereco", catalog = "siscob_db", schema = "")
+@Table(name = "endereco")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Endereco.findAll", query = "SELECT e FROM Endereco e"),

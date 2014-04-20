@@ -28,7 +28,7 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
  * @author Douglas
  */
 @Entity
-@Table(name = "boleto", catalog = "siscob_db", schema = "")
+@Table(name = "boleto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Boleto.findAll", query = "SELECT b FROM Boleto b"),

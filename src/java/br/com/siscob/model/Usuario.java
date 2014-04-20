@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Douglas
  */
 @Entity
-@Table(name = "usuario", catalog = "siscob_db", schema = "")
+@Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", 
@@ -61,7 +61,7 @@ public class Usuario extends AbstractEntity implements Serializable {
     @Column(name = "permissao", nullable = false, length = 45)
     private String permissao;
     @JoinColumn(name = "condominio_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Condominio condominio;
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Boleto> boletos;

@@ -10,7 +10,10 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -35,12 +38,17 @@ public class DashBoardBean
         implements Serializable {
 
     public DashBoardBean() {
-        boletos = new ArrayList();
-        usuario = FacesUtil.obterUsuarioSessao();
-        if (usuario.getPermissao().equals("ROLE_USER")) {
-            boletos = boletoNeg.consultar(usuario);
-        } else {
-            ultimosAcessos = usuarioNeg.consultarUltimosAcessos();
+        try {
+            boletos = new ArrayList();
+            usuario = FacesUtil.obterUsuarioSessao();
+            if (usuario.getPermissao().equals("ROLE_USER")) {
+                boletos = boletoNeg.consultar(usuario);
+                usuarioNeg.atualizarUltimoAcesso(usuario);
+            } else {
+                ultimosAcessos = usuarioNeg.consultarUltimosAcessos();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DashBoardBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -59,11 +67,11 @@ public class DashBoardBean
         ContaBancaria contaBancaria = new ContaBancaria(boleto.getContaId().getBanco().create());
         contaBancaria.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(boleto.getContaId().getConta()), boleto.getContaId().getDigitoCc()));
         contaBancaria.setCarteira(new Carteira(Integer.valueOf(boleto.getContaId().getCarteira())));
-        
+
         Agencia agencia;
-        if(boleto.getContaId().getDigitoAg().isEmpty()){
+        if (boleto.getContaId().getDigitoAg().isEmpty()) {
             agencia = new Agencia(Integer.valueOf(boleto.getContaId().getAgencia()));
-        }else{
+        } else {
             agencia = new Agencia(boleto.getContaId().getAgencia(), boleto.getContaId().getDigitoAg());
         }
         contaBancaria.setAgencia(agencia);
@@ -93,7 +101,7 @@ public class DashBoardBean
             FacesUtil.exibirMensagemAlerta("Atenção", "Selecione um boleto!");
             return null;
         }
-        
+
         try {
             BoletoViewer boletoViewer = gerarBoleto();
             byte pdfAsBytes[] = boletoViewer.getPdfAsByteArray();

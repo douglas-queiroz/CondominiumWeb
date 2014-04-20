@@ -26,7 +26,7 @@ import org.jrimum.bopepo.BancosSuportados;
  * @author Douglas
  */
 @Entity
-@Table(name = "conta", catalog = "siscob_db", schema = "")
+@Table(name = "conta")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Conta.findAll", query = "SELECT c FROM Conta c"),

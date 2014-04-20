@@ -12,6 +12,7 @@ import br.com.siscob.util.Util;
 import br.com.tronic.exception.ValidacaoException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,6 +76,11 @@ public class UsuarioNeg extends GenericNeg<Usuario> implements Serializable {
         if (!msgs.isEmpty()) {
             throw new ValidacaoException(msgs);
         }
+    }
+    
+    public void atualizarUltimoAcesso(Usuario usuario) throws Exception{
+        usuario.setUltimoAcesso(new Date());
+        super.salvar(usuario);
     }
 
     public List consultarUltimosAcessos() {
