@@ -19,7 +19,7 @@
             
 <!--            <property name="javax.persistence.jdbc.user" value="root" />
             <property name= "javax.persistence.jdbc.password" value= "sicoadmin"/>
-            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://localhost:3306/siscob_db?zeroDateTimeBehavior=convertToNull" />-->
+            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://localhost:3306/adicon_siscob?zeroDateTimeBehavior=convertToNull" />-->
             
             <property name="hibernate.show_sql" value="true"/>
             

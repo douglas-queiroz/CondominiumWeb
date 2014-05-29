@@ -54,12 +54,19 @@
                                          size="30" styleLabel="margin: 0px 0px 5px 10px; "
                                          style="margin: 0px 10px 0px 10px; " />
                         <h:panelGrid>
-                            <h:outputText value="UF: " style="margin: 0px 0px 5px 0px; " />
+                            <h:outputText value="UF: " style="margin: 10px 0px 5px 0px; " />
                             <p:selectOneMenu value="#{condominioBean.objeto.endereco.uf}">
                                 <f:selectItems value="#{condominioBean.ufs}" />
                             </p:selectOneMenu>
                         </h:panelGrid>
                     </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Responsabilidade do cedente: " />
+                        <p:selectBooleanCheckbox value="#{condominioBean.objeto.responsabilidadeCedente}"
+                                                 style="margin: 5px 0px 0px 5px;"/>
+                    </h:panelGrid>
+
 
                     <h:panelGrid columns="2" style="float:right; margin-top: 10px;">
                         <p:commandButton

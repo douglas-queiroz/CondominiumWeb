@@ -67,7 +67,7 @@ public class Boleto extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_documento", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataDocumento;
+    private Date dataDocumento = new Date();
     @Basic(optional = false)
     @Column(name = "data_vencimento", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

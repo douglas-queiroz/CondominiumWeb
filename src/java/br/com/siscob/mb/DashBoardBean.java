@@ -92,7 +92,13 @@ public class DashBoardBean
         }
         Boleto boletoBopero = new Boleto(tituloBopepo);
         boletoBopero.setLocalPagamento(boleto.getLocalPagamento());
-        boletoBopero.setInstrucao1(boleto.getInstrucaoPagamento());
+        if(condominio.isResponsabilidadeCedente()){
+            boletoBopero.setInstrucao1("Responsabilidade do Cedente");
+        }
+        
+        boletoBopero.setInstrucao2(boleto.getInstrucaoPagamento());
+        
+        
         return new BoletoViewer(boletoBopero);
     }
 

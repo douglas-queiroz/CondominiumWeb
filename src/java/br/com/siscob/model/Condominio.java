@@ -47,6 +47,8 @@ public class Condominio extends AbstractEntity implements Serializable {
     @JoinColumn(name = "endereco_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Endereco endereco;
+    @Column(name = "responsabilidade_cedente")
+    private boolean responsabilidadeCedente;
 
     public Condominio() {
     }
@@ -107,6 +109,14 @@ public class Condominio extends AbstractEntity implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public boolean isResponsabilidadeCedente() {
+        return responsabilidadeCedente;
+    }
+
+    public void setResponsabilidadeCedente(boolean responsabilidadeCedente) {
+        this.responsabilidadeCedente = responsabilidadeCedente;
     }
 
     @Override
