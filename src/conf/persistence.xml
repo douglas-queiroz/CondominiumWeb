@@ -13,13 +13,13 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/> 
             <property name="javax.persistence.jdbc.driver" value= "com.mysql.jdbc.Driver" />
             
-            <property name="javax.persistence.jdbc.user" value="adicon_tronic" />
+<!--            <property name="javax.persistence.jdbc.user" value="adicon_tronic" />
             <property name= "javax.persistence.jdbc.password" value= "dqsl@paixao"/>
-            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://adicon-pe.com.br:3306/adicon_siscob?zeroDateTimeBehavior=convertToNull" />
+            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://adicon-pe.com.br:3306/adicon_siscob?zeroDateTimeBehavior=convertToNull" />-->
             
-<!--            <property name="javax.persistence.jdbc.user" value="root" />
+            <property name="javax.persistence.jdbc.user" value="root" />
             <property name= "javax.persistence.jdbc.password" value= "sicoadmin"/>
-            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://localhost:3306/adicon_siscob?zeroDateTimeBehavior=convertToNull" />-->
+            <property name= "javax.persistence.jdbc.url" value= "jdbc:mysql://localhost:3306/adicon_siscob?zeroDateTimeBehavior=convertToNull" />
             
             <property name="hibernate.show_sql" value="true"/>
             

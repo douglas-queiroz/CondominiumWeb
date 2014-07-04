@@ -5,18 +5,21 @@ import br.com.siscob.model.Usuario;
 import br.com.siscob.neg.BoletoNeg;
 import br.com.siscob.neg.UsuarioNeg;
 import br.com.siscob.util.FacesUtil;
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import static com.sun.faces.facelets.util.Path.context;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.jrimum.bopepo.BancosSuportados;
 import org.jrimum.bopepo.Boleto;
@@ -92,14 +95,19 @@ public class DashBoardBean
         }
         Boleto boletoBopero = new Boleto(tituloBopepo);
         boletoBopero.setLocalPagamento(boleto.getLocalPagamento());
-        if(condominio.isResponsabilidadeCedente()){
+        if (condominio.isResponsabilidadeCedente()) {
             boletoBopero.setInstrucao1("Responsabilidade do Cedente");
         }
-        
+
         boletoBopero.setInstrucao2(boleto.getInstrucaoPagamento());
-        
-        
-        return new BoletoViewer(boletoBopero);
+        boletoBopero.setInstrucao7(tituloBopepo.getParametrosBancarios().getValor("CodigoOperacao").toString());
+        boletoBopero.setInstrucao8(tituloBopepo.getParametrosBancarios().getValor("CodigoOperacao").toString());
+
+        String caminhoRelatorio = FacesUtil.getServletContext().getRealPath("/relatorios");
+        String caminhoTemplatePdf = caminhoRelatorio + File.separator + "BoletoTemplateCustom.pdf";
+        File templatePersonalizado = new File(caminhoTemplatePdf);
+
+        return new BoletoViewer(boletoBopero, templatePersonalizado);
     }
 
     public String download() {
