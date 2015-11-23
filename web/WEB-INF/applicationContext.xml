@@ -33,14 +33,7 @@
         <b:property name="url" value="jdbc:mysql://localhost:3306/adicon_siscob?autoReconnect=true" />
         <b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <b:property name="username" value="root" />
-        <b:property name="password" value="sicoadmin" />
+        <b:property name="password" value="your-db-password" />
     </b:bean>
-    
-<!--    <b:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-        <b:property name="url" value="jdbc:mysql://adicon-pe.com.br:3306/adicon_siscob" />
-        <b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <b:property name="username" value="adicon_tronic" />
-        <b:property name="password" value="dqsl@paixao" />
-    </b:bean>-->
 
 </b:beans>
